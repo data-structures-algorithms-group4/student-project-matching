@@ -18,19 +18,23 @@ provisionally assign $s_i$ to $p_j$:
 /* and to $l_k$ */
 if ($p_j$ is over-subscribed) {
 $s_r$ = worst student assigned to $p_j$;
-/* according to $\math{L}^j_k$ *,
-break provisional assignment between s, and pj; }
-else if (le is over-subscribed) f
-Sp = worst student assigned to lk:
-Pr = project assigned sy;
-break provisional assignment between s, and pr;
-if (p; is full) (
-sr = worst student assigned to pj:
-for (each successors, of s, on 6l) delete (st. P;):
-* according to C*,
-if (Ix is full) (
-Sr = worst student assigned to i;
-for (each successor s, of s, on (k) for (each project pu € Pan A,)
-delete (5+- Pu):
+/* according to $L^j_k$ *,
+break provisional assignment between $s_r$ and $p_j$; }
+else if ($l_k$ is over-subscribed) {
+$s_r$ = worst student assigned to $l_k$:
+$p_t$ = project assigned $s_r$;
+break provisional assignment between $s_r$ and $p_t$;
 }
-return ((si-Pj) €S x P: s; is provisionally assigned to pj:
+if ($p_j$ is full) {
+$s_r$ = worst student assigned to $p_j$: * according to $L^j_k$*
+for (each successor $s_t$ of $s_r$ on $L^j_k$ delete ($s_t$, $p_j$);
+}
+if ($l_k$ is full) {
+$s_r$ = worst student assigned to $l_k$;
+for (each successor $s_t$ of $s_r$ on $L_k$)
+for (each project $p_u$ € $P_k$ $\union$ $A_t$)
+delete ($s_t$, $p_u$);
+}
+}
+}
+return {($s_i$, $p_j$) in $S$ x $P$: $s_i$ is assigned to $p_j$};
