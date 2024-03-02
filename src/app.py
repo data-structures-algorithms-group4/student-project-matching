@@ -9,7 +9,7 @@ UPLOAD_FOLDER = '../src/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'xlsx'}
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'NOTASECRETONLYUSEFORDEBUGGING'
+app.config['SECRET_KEY'] = 'NOT-A-SECRET-ONLY-USE-FOR-LOCAL-TESTING'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -77,7 +77,6 @@ def matching_algorithm(students_df, projects_df):
                                     project_assignments[project].append(student) # update assignments
                                     matches[student] = project
                                 break
-    # Print the final student-project matches
     return matches
 
 
