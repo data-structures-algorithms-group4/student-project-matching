@@ -1,16 +1,21 @@
 import os
 from flask import Flask, flash, request, redirect, url_for, send_from_directory, render_template
 from werkzeug.utils import secure_filename
+import pandas as pd
 
 UPLOAD_FOLDER = '../src/uploads'
-ALLOWED_EXTENSIONS = {'txt'}
+ALLOWED_EXTENSIONS = {'txt', 'csv', 'xlsx'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def file_type(filename):
+    return filename.rsplit('.', 1)[1].lower()
+
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -28,11 +33,16 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            file.seek(0)
-            file_contents = file.read()
-            print(f'File: {file}')
-            print(f'File contents: {file_contents}')
-            return render_template('home.html', student_preferences = file_contents)
+            if file_type(file.filename) == 'txt':
+                file.seek(0)
+                file_contents = file.read()
+                print(f'File: {file}')
+                print(f'File contents: {file_contents}')
+                return render_template('home.html', student_preferences = file_contents)
+            if file_type(file.filename) == 'xlsx':
+                preferences_df = pd.read_excel(file)
+                return render_template('home.html', student_preferences = preferences_df)
+
     return render_template('home.html', student_preferences = '')
 
 @app.route('/uploads/<name>')
