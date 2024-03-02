@@ -15,13 +15,18 @@
 
 <h1>Student-Project Matching</h1>
 
-<h2>Student Preferences</h2>
-
 <form method=post enctype=multipart/form-data>
-  <input type=file name=students>
-  <input type=file name=projects>
+  <div>
+    <label for="students">Student Preferences:</label>
+    <input type=file id=students name=students>
+  </div>
+  <div>
+    <label for="projects">Projects:</label><input type=file id=projects name=projects>
+  </div>
   <input type=submit value=Upload>
 </form>
+
+<h2>Student Preferences</h2>
 
 <pre>{{students}}</pre>
 
