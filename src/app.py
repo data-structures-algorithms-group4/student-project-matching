@@ -2,7 +2,7 @@ import os
 from flask import Flask, flash, request, redirect, url_for, send_from_directory, render_template
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = 'src/uploads'
+UPLOAD_FOLDER = '../src/uploads'
 ALLOWED_EXTENSIONS = {'txt'}
 
 app = Flask(__name__)
@@ -28,8 +28,12 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('download_file', name=filename))
-    return render_template('home.html')
+            file.seek(0)
+            file_contents = file.read()
+            print(f'File: {file}')
+            print(f'File contents: {file_contents}')
+            return render_template('home.html', student_preferences = file_contents)
+    return render_template('home.html', student_preferences = '')
 
 @app.route('/uploads/<name>')
 def download_file(name):
