@@ -31,7 +31,11 @@
 
 <h2>Student-Project Matches</h2>
 
-<pre>{{matches}}</pre>
+<ul>
+  {% for key, value in matches.items() %}
+  <li><strong>{{ key }}</strong>: {{ value }}</li>
+  {% endfor %}
+</ul>
 
 </body>
 
