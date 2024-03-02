@@ -17,6 +17,15 @@ def file_type(filename):
     return filename.rsplit('.', 1)[1].lower()
 
 
+def txt_to_df(txt_file):
+    txt_file.seek(0)
+    file_contents = txt_file.read().decode('utf-8')
+    file_contents = file_contents.splitlines()
+    file_contents = [line.split(" ") for line in file_contents]
+    file_contents = pd.DataFrame(file_contents)
+    return file_contents
+
+
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -34,17 +43,10 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             if file_type(file.filename) == 'txt':
-                file.seek(0)
-                file_contents = file.read()
-                print(f'File: {file}')
-                print(f'File contents: {file_contents}')
+                file_contents = txt_to_df(file)
                 return render_template('home.html', student_preferences = file_contents)
             if file_type(file.filename) == 'xlsx':
                 preferences_df = pd.read_excel(file)
                 return render_template('home.html', student_preferences = preferences_df)
 
     return render_template('home.html', student_preferences = '')
-
-@app.route('/uploads/<name>')
-def download_file(name):
-    return send_from_directory(app.config["UPLOAD_FOLDER"], name)
