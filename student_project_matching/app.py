@@ -2,9 +2,10 @@ import os
 from flask import Flask, flash, request, redirect, url_for, send_from_directory, render_template
 from werkzeug.utils import secure_filename
 import pandas as pd
-from collections import defaultdict
+from student_project_matching.matching_algorithm import matching_algorithm
 
-UPLOAD_FOLDER = '../src/uploads'
+# TODO find a better solution than manually going up one directory with "../"
+UPLOAD_FOLDER = '../student_project_matching/uploads'
 # TODO add support for CSV
 ALLOWED_EXTENSIONS = {'txt', 'xlsx'}
 
@@ -29,7 +30,7 @@ def txt_to_df(txt_file):
     df = pd.DataFrame(file_contents)
     return df
 
-
+'''
 def matching_algorithm(students_df, projects_df):
     students = students_df['student_names'].tolist()
     projects = projects_df['project_name'].tolist()
@@ -78,6 +79,7 @@ def matching_algorithm(students_df, projects_df):
                                     matches[student] = project
                                 break
     return matches
+'''
 
 
 # TODO determine if there is a reason to store the uploads rather than using them in memory
