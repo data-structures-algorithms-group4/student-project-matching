@@ -80,6 +80,7 @@ def matching_algorithm(students_df, projects_df):
     return matches
 
 
+# TODO determine if there is a reason to store the uploads rather than using them in memory
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
@@ -119,7 +120,14 @@ def home():
         projects_df = projects_df.rename(columns = {projects_df.columns[0]: 'project_name', projects_df.columns[1]: 'max_students'})
         projects_df['max_students'] = pd.to_numeric(projects_df['max_students'])
 
-        matches = matching_algorithm(students_df, projects_df) 
-        return render_template('home.html', students = students_df, projects = projects_df, matches = matches)
-
-    return render_template('home.html', students = '', projects = '', matches = '')
+        matches = matching_algorithm(students_df, projects_df)
+        print(pd.DataFrame.from_dict(matches, orient='index'))
+        return render_template('home.html',
+                               students = students_df.to_html(classes="table table-bordered", index=False),
+                               projects = projects_df.to_html(classes="table table-bordered", index=False),
+                               matches = matches,
+                               matches_test = pd.DataFrame.from_dict(matches, orient='index').to_html(classes="table table-bordered"))
+    
+    # if not POST, render an empty version of the homepage so the user can upload students and projects
+    else:
+        return render_template('home.html', students = '', projects = '', matches = '')

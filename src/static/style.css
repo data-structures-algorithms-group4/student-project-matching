@@ -1,0 +1,11 @@
+body {
+    background-color: #fff2e6;
+}
+
+.table {
+    --bs-table-bg: #fff2e6;
+}
+
+th {
+    text-align: center;
+}
