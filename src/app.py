@@ -120,13 +120,13 @@ def home():
         projects_df = projects_df.rename(columns = {projects_df.columns[0]: 'project_name', projects_df.columns[1]: 'max_students'})
         projects_df['max_students'] = pd.to_numeric(projects_df['max_students'])
 
-        matches = matching_algorithm(students_df, projects_df)
-        print(pd.DataFrame.from_dict(matches, orient='index'))
+        matches = pd.DataFrame.from_dict(matching_algorithm(students_df, projects_df), orient='index')
+        matches.reset_index(inplace=True)
+        matches = matches.rename(columns = {matches.columns[0]: 'student_names', matches.columns[1]: 'project_names'})
         return render_template('home.html',
                                students = students_df.to_html(classes="table table-bordered", index=False),
                                projects = projects_df.to_html(classes="table table-bordered", index=False),
-                               matches = matches,
-                               matches_test = pd.DataFrame.from_dict(matches, orient='index').to_html(classes="table table-bordered"))
+                               matches = matches.to_html(classes="table table-bordered", index=False))
     
     # if not POST, render an empty version of the homepage so the user can upload students and projects
     else:

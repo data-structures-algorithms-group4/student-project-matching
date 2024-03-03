@@ -46,15 +46,8 @@
 
 <div class="row text-center" id="matches">
 <h2>Student-Project Matches</h2>
-{% if matches != '' %}
-<ul>
-  {% for key, value in matches.items() %}
-  <li><strong>{{ key }}</strong>: {{ value }}</li>
-  {% endfor %}
-</ul>
-{% endif %}
 
-{{matches_test | safe}}
+{{matches | safe}}
 </div>
 
 </div>
