@@ -1,6 +1,7 @@
 # Data Structures & Algorithms Spring 2024
 # Group 4: Student-Project Matching
 # test_algorithm.py
+#   Usage in terminal/PyCharm: pytest test_algorithm.py
 
 import pandas as pd
 import pytest
