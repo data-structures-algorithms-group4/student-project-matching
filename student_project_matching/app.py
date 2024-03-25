@@ -56,7 +56,7 @@ def validate_projects_df(df):
     '''
     if not df.iloc[:, 0].is_unique:
         return False, 'Not all projects are unique'
-    if not df['Column2'].apply(lambda x: isinstance(x, int) and x > 0).all():
+    if not df['max_students'].apply(lambda x: isinstance(x, int) and x > 0).all():
         return False, 'max_students is not always an integer greater than zero'
     # check that preferences are unique
     # set() reduces to unique elements
@@ -65,6 +65,23 @@ def validate_projects_df(df):
         return False, 'Not all preferences within project are unique'
     return True, ''
 
+
+# TODO function that validates the combination of students and projects
+def validate_students_projects(students_df, projects_df):
+    '''
+    Confirms that:
+    All projects in students_df appear in projects_df
+    All students in projects_df appear in students_df
+    '''
+    students_from_students_df = set(students_df.iloc[:, 0].values)
+    projects_from_students_df = set(students_df.iloc[:, 1:].values.ravel())
+    projects_from_project_df = set(projects_df.iloc[:, 0].values)
+    students_from_project_df = set(projects_df.iloc[:, 2:].values.ravel())
+    if not projects_from_students_df.issubset(projects_from_project_df):
+        return False, 'Some projects in the student file are not in the projects file'
+    if not students_from_project_df.issubset(students_from_students_df):
+        return False, 'Some students in the project file are not in the students file'
+    return True, ''
 
 
 def parse_df_upload(file):
@@ -96,6 +113,7 @@ def home():
             students_filename = secure_filename(students.filename)
             students.save(os.path.join(app.config['UPLOAD_FOLDER'], students_filename))
             students_df = parse_df_upload(students)
+            students_df = students_df.rename(columns = {students_df.columns[0]: 'student_names'})
             if not validate_students_df(students_df)[0]:
                 flash(validate_students_df(students_df)[1])
                 return redirect(request.url)
@@ -109,14 +127,15 @@ def home():
             projects_filename = secure_filename(projects.filename)
             projects.save(os.path.join(app.config['UPLOAD_FOLDER'], projects_filename))
             projects_df = parse_df_upload(projects)
+            projects_df = projects_df.rename(columns = {projects_df.columns[0]: 'project_name', projects_df.columns[1]: 'max_students'})
+            projects_df['max_students'] = pd.to_numeric(projects_df['max_students'])
             if not validate_projects_df(projects_df)[0]:
                 flash(validate_projects_df(projects_df)[1])
                 return redirect(request.url)
-            
-        students_df = students_df.rename(columns = {students_df.columns[0]: 'student_names'})
-        projects_df = projects_df.rename(columns = {projects_df.columns[0]: 'project_name', projects_df.columns[1]: 'max_students'})
-        projects_df['max_students'] = pd.to_numeric(projects_df['max_students'])
-
+        if not validate_students_projects(students_df, projects_df)[0]:
+            flash(validate_students_projects(students_df, projects_df)[1])
+            return redirect(request.url)
+        
         matches = pd.DataFrame.from_dict(matching_algorithm(students_df, projects_df), orient='index')
         matches.reset_index(inplace=True)
         matches = matches.rename(columns = {matches.columns[0]: 'student_names', matches.columns[1]: 'project_names'})
