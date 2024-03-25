@@ -15,11 +15,9 @@ TEST_DATA_DIR = '../test_data/'
 # Test Environment Setup #
 ##########################
 
-# TODO merge with the df reading in app.py
 def files_to_df(students_file: str, projects_file: str):
     ''' Converts input files to Pandas DataFrames. '''
     # Load the student and project data from Excel files [app.py]
-    # TO-DO: handle txt, csv, etc. formats
     students_df = parse_df_upload(students_file)
     projects_df = parse_df_upload(projects_file)
     return students_df, projects_df
