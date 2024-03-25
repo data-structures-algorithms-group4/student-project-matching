@@ -3,11 +3,12 @@ from flask import Flask, flash, request, redirect, url_for, send_from_directory,
 from werkzeug.utils import secure_filename
 import pandas as pd
 from student_project_matching.matching_algorithm import matching_algorithm
+from io import StringIO
 
 # TODO find a better solution than manually going up one directory with "../"
 UPLOAD_FOLDER = '../student_project_matching/uploads'
 # TODO add support for CSV
-ALLOWED_EXTENSIONS = {'txt', 'xlsx'}
+ALLOWED_EXTENSIONS = {'txt', 'xlsx', 'csv'}
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'NOT-A-SECRET-ONLY-USE-FOR-LOCAL-TESTING'
@@ -52,6 +53,9 @@ def home():
                 students_df = txt_to_df(students)
             if file_type(students.filename) == 'xlsx':
                 students_df = pd.read_excel(students)
+            if file_type(students.filename) == 'csv':
+                students.seek(0)
+                students_df = pd.read_csv(students, header = 0)
 
         projects = request.files['projects']
         # If the user does not select a file, the browser submits an
@@ -66,6 +70,9 @@ def home():
                 projects_df = txt_to_df(projects)
             if file_type(projects.filename) == 'xlsx':
                 projects_df = pd.read_excel(projects)
+            if file_type(projects.filename) == 'csv':
+                projects.seek(0)
+                projects_df = pd.read_csv(projects, header = 0)
 
         students_df = students_df.rename(columns = {students_df.columns[0]: 'student_names'})
         projects_df = projects_df.rename(columns = {projects_df.columns[0]: 'project_name', projects_df.columns[1]: 'max_students'})
