@@ -32,6 +32,23 @@ def txt_to_df(txt_file):
     return df
 
 
+def validate_students_df(students_df):
+    '''
+    1st column is students and must be unique
+    Every column after that is preferences
+    Preferences cannot be repeated
+    '''
+    # check that students are unique
+    if not students_df.iloc[:, 0].is_unique:
+        return False, 'Not all students are unique'
+    # check that preferences are unique
+    # set() reduces to unique elements
+    if not students_df.apply(lambda row: len(row) == len(set(row)), axis=1).all():
+        return False, 'Not all preferences within student are unique'
+    return True, ''
+
+
+
 def parse_df_upload(file):
     if file_type(file.filename) == 'txt':
         df = txt_to_df(file)
@@ -61,6 +78,9 @@ def home():
             students_filename = secure_filename(students.filename)
             students.save(os.path.join(app.config['UPLOAD_FOLDER'], students_filename))
             students_df = parse_df_upload(students)
+            if not validate_students_df(students_df)[0]:
+                flash(validate_students_df(students_df)[1])
+                return redirect(request.url)
         projects = request.files['projects']
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
