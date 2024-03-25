@@ -28,10 +28,10 @@ def stable_match_checker(students_df, projects_df, matches) -> (bool, str):
         student_prefs[row['student_names']] = row[1:].dropna().tolist()
     # Extract project preferences
     for _, row in projects_df.iterrows():
-        # Assuming the first two columns are 'project_name' and 'max_students'
-        project_prefs[row['project_name']] = row[2:].dropna().tolist()
+        # Assuming the first two columns are 'project_names' and 'max_students'
+        project_prefs[row['project_names']] = row[2:].dropna().tolist()
     # Map each project to its capacity
-    project_capacity = projects_df.set_index('project_name')['max_students'].to_dict()
+    project_capacity = projects_df.set_index('project_names')['max_students'].to_dict()
 
     ###################
     # Stable Matching #

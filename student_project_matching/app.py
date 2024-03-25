@@ -38,7 +38,7 @@ def validate_students_df(df):
     Every column after that is preferences and cannot be repeated
     '''
     # check that students are unique
-    if not df.iloc[:, 0].is_unique:
+    if not df['student_names'].is_unique:
         return False, 'Not all students are unique'
     # check that preferences are unique
     # set() reduces to unique elements
@@ -54,7 +54,7 @@ def validate_projects_df(df):
     2nd column is max capacity and must be numeric and greater than zero
     Every column after that is preferences and cannot be repeated
     '''
-    if not df.iloc[:, 0].is_unique:
+    if not df['project_names'].is_unique:
         return False, 'Not all projects are unique'
     if not df['max_students'].apply(lambda x: isinstance(x, int) and x > 0).all():
         return False, 'max_students is not always an integer greater than zero'
@@ -73,9 +73,9 @@ def validate_students_projects(students_df, projects_df):
     All projects in students_df appear in projects_df
     All students in projects_df appear in students_df
     '''
-    students_from_students_df = set(students_df.iloc[:, 0].values)
+    students_from_students_df = set(students_df['student_names'].values)
     projects_from_students_df = set(students_df.iloc[:, 1:].values.ravel())
-    projects_from_project_df = set(projects_df.iloc[:, 0].values)
+    projects_from_project_df = set(projects_df['project_names'].values)
     students_from_project_df = set(projects_df.iloc[:, 2:].values.ravel())
     if not projects_from_students_df.issubset(projects_from_project_df):
         return False, 'Some projects in the student file are not in the projects file'
@@ -127,7 +127,7 @@ def home():
             projects_filename = secure_filename(projects.filename)
             projects.save(os.path.join(app.config['UPLOAD_FOLDER'], projects_filename))
             projects_df = parse_df_upload(projects)
-            projects_df = projects_df.rename(columns = {projects_df.columns[0]: 'project_name', projects_df.columns[1]: 'max_students'})
+            projects_df = projects_df.rename(columns = {projects_df.columns[0]: 'project_names', projects_df.columns[1]: 'max_students'})
             projects_df['max_students'] = pd.to_numeric(projects_df['max_students'])
             if not validate_projects_df(projects_df)[0]:
                 flash(validate_projects_df(projects_df)[1])
