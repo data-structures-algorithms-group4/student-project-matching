@@ -51,6 +51,7 @@ def stable_match_checker(students_df, projects_df, matches) -> (bool, str):
         p_prefs = project_prefs[p_matched] # students in order of project's preferences
 
         # INVALID checks
+        # TODO break into a function so that we can access from the Flask app
         if p_matched not in s_prefs:
             error_msg = f'INVALID: {p_matched} is not in {s_matched} preference list!'
             print(f'\t-> {error_msg}')
