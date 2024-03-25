@@ -32,19 +32,37 @@ def txt_to_df(txt_file):
     return df
 
 
-def validate_students_df(students_df):
+def validate_students_df(df):
     '''
     1st column is students and must be unique
-    Every column after that is preferences
-    Preferences cannot be repeated
+    Every column after that is preferences and cannot be repeated
     '''
     # check that students are unique
-    if not students_df.iloc[:, 0].is_unique:
+    if not df.iloc[:, 0].is_unique:
         return False, 'Not all students are unique'
     # check that preferences are unique
     # set() reduces to unique elements
-    if not students_df.apply(lambda row: len(row) == len(set(row)), axis=1).all():
+    # assumes that project names != student names
+    if not df.apply(lambda row: len(row) == len(set(row)), axis=1).all():
         return False, 'Not all preferences within student are unique'
+    return True, ''
+
+
+def validate_projects_df(df):
+    '''
+    1st column is projects and must be unique
+    2nd column is max capacity and must be numeric and greater than zero
+    Every column after that is preferences and cannot be repeated
+    '''
+    if not df.iloc[:, 0].is_unique:
+        return False, 'Not all projects are unique'
+    if not df['Column2'].apply(lambda x: isinstance(x, int) and x > 0).all():
+        return False, 'max_students is not always an integer greater than zero'
+    # check that preferences are unique
+    # set() reduces to unique elements
+    # assumes that student names != project names or max_capacity
+    if not df.apply(lambda row: len(row) == len(set(row)), axis=1).all():
+        return False, 'Not all preferences within project are unique'
     return True, ''
 
 
@@ -91,7 +109,10 @@ def home():
             projects_filename = secure_filename(projects.filename)
             projects.save(os.path.join(app.config['UPLOAD_FOLDER'], projects_filename))
             projects_df = parse_df_upload(projects)
-
+            if not validate_projects_df(projects_df)[0]:
+                flash(validate_projects_df(projects_df)[1])
+                return redirect(request.url)
+            
         students_df = students_df.rename(columns = {students_df.columns[0]: 'student_names'})
         projects_df = projects_df.rename(columns = {projects_df.columns[0]: 'project_name', projects_df.columns[1]: 'max_students'})
         projects_df['max_students'] = pd.to_numeric(projects_df['max_students'])
