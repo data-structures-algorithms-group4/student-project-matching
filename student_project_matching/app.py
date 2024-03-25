@@ -31,6 +31,14 @@ def txt_to_df(txt_file):
     return df
 
 
+def parse_df_upload(file):
+    if file_type(file.filename) == 'txt':
+        df = txt_to_df(file)
+    if file_type(file.filename) == 'xlsx':
+        df = pd.read_excel(file)
+    return df
+
+
 # TODO determine if there is a reason to store the uploads rather than using them in memory
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -48,10 +56,7 @@ def home():
         if students and allowed_file(students.filename):
             students_filename = secure_filename(students.filename)
             students.save(os.path.join(app.config['UPLOAD_FOLDER'], students_filename))
-            if file_type(students.filename) == 'txt':
-                students_df = txt_to_df(students)
-            if file_type(students.filename) == 'xlsx':
-                students_df = pd.read_excel(students)
+            students_df = parse_df_upload(students)
 
         projects = request.files['projects']
         # If the user does not select a file, the browser submits an
@@ -62,10 +67,7 @@ def home():
         if projects and allowed_file(projects.filename):
             projects_filename = secure_filename(projects.filename)
             projects.save(os.path.join(app.config['UPLOAD_FOLDER'], projects_filename))
-            if file_type(projects.filename) == 'txt':
-                projects_df = txt_to_df(projects)
-            if file_type(projects.filename) == 'xlsx':
-                projects_df = pd.read_excel(projects)
+            projects_df = parse_df_upload(projects)
 
         students_df = students_df.rename(columns = {students_df.columns[0]: 'student_names'})
         projects_df = projects_df.rename(columns = {projects_df.columns[0]: 'project_name', projects_df.columns[1]: 'max_students'})

@@ -7,6 +7,7 @@ import pandas as pd
 import pytest
 from student_project_matching.matching_algorithm import matching_algorithm
 from tests.stable_match_checker import stable_match_checker
+from student_project_matching.app import parse_df_upload
 
 TEST_DATA_DIR = '../test_data/'
 
@@ -19,8 +20,8 @@ def files_to_df(students_file: str, projects_file: str):
     ''' Converts input files to Pandas DataFrames. '''
     # Load the student and project data from Excel files [app.py]
     # TO-DO: handle txt, csv, etc. formats
-    students_df = pd.read_excel(students_file)
-    projects_df = pd.read_excel(projects_file)
+    students_df = parse_df_upload(students_file)
+    projects_df = parse_df_upload(projects_file)
     return students_df, projects_df
 
 def inject_errors(matches: dict, match_errors: dict):
