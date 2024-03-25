@@ -3,11 +3,12 @@ from flask import Flask, flash, request, redirect, url_for, send_from_directory,
 from werkzeug.utils import secure_filename
 import pandas as pd
 from student_project_matching.matching_algorithm import matching_algorithm
+from io import StringIO
 
 # TODO find a better solution than manually going up one directory with "../"
 UPLOAD_FOLDER = '../student_project_matching/uploads'
 # TODO add support for CSV
-ALLOWED_EXTENSIONS = {'txt', 'xlsx'}
+ALLOWED_EXTENSIONS = {'txt', 'xlsx', 'csv'}
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'NOT-A-SECRET-ONLY-USE-FOR-LOCAL-TESTING'
@@ -36,6 +37,9 @@ def parse_df_upload(file):
         df = txt_to_df(file)
     if file_type(file.filename) == 'xlsx':
         df = pd.read_excel(file)
+    if file_type(file.filename) == 'csv':
+        file.seek(0)
+        df = pd.read_csv(file, header = 0)
     return df
 
 
@@ -57,7 +61,6 @@ def home():
             students_filename = secure_filename(students.filename)
             students.save(os.path.join(app.config['UPLOAD_FOLDER'], students_filename))
             students_df = parse_df_upload(students)
-
         projects = request.files['projects']
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
