@@ -9,3 +9,9 @@ body {
 th {
     text-align: center;
 }
+
+#flash-message {
+    text-align: center;
+    font-size: large;
+    color: #ff1100;
+}
