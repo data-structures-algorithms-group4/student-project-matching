@@ -67,18 +67,16 @@ def validate_projects_df(df):
     Every column after that is preferences and cannot be repeated
     """
     if not df["project_names"].is_unique:
-        return False, "Not all projects are unique"
+        raise InputValidationError("Not all projects are unique")
     if not df["max_students"].apply(lambda x: isinstance(x, int) and x > 0).all():
-        return False, "max_students is not always an integer greater than zero"
+        raise InputValidationError("max_students is not always an integer greater than zero")
     # check that preferences are unique
     # set() reduces to unique elements
     # assumes that student names != project names or max_capacity
     if not df.apply(lambda row: len(row) == len(set(row)), axis=1).all():
-        return False, "Not all preferences within project are unique"
-    return True, ""
+        raise InputValidationError("Not all preferences within project are unique")
 
 
-# TODO function that validates the combination of students and projects
 def validate_students_projects(students_df, projects_df):
     """
     Confirms that:
@@ -90,10 +88,9 @@ def validate_students_projects(students_df, projects_df):
     projects_from_project_df = set(projects_df["project_names"].values)
     students_from_project_df = set(projects_df.iloc[:, 2:].values.ravel())
     if not projects_from_students_df.issubset(projects_from_project_df):
-        return False, "Some projects in the student file are not in the projects file"
+        raise InputValidationError("Some projects in the student file are not in the projects file")
     if not students_from_project_df.issubset(students_from_students_df):
-        return False, "Some students in the project file are not in the students file"
-    return True, ""
+        raise InputValidationError("Some students in the project file are not in the students file")
 
 
 def parse_df_upload(file):
@@ -126,7 +123,7 @@ def input_validation_decorator(*validators):
 
 
 # TODO determine if there is a reason to store the uploads rather than using them in memory
-@input_validation_decorator(validate_students_df)
+@input_validation_decorator(validate_students_df, validate_projects_df, validate_students_projects)
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
@@ -147,9 +144,6 @@ def home():
             students_df = students_df.rename(
                 columns={students_df.columns[0]: "student_names"}
             )
-            #if not validate_students_df(students_df)[0]:
-            #    flash(validate_students_df(students_df)[1])
-            #    return redirect(request.url)
         projects = request.files["projects"]
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
@@ -167,12 +161,6 @@ def home():
                 }
             )
             projects_df["max_students"] = pd.to_numeric(projects_df["max_students"])
-            if not validate_projects_df(projects_df)[0]:
-                flash(validate_projects_df(projects_df)[1])
-                return redirect(request.url)
-        if not validate_students_projects(students_df, projects_df)[0]:
-            flash(validate_students_projects(students_df, projects_df)[1])
-            return redirect(request.url)
 
         matches = pd.DataFrame.from_dict(
             matching_algorithm(students_df, projects_df), orient="index"
