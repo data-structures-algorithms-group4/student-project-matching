@@ -12,6 +12,7 @@ from werkzeug.utils import secure_filename
 import pandas as pd
 from student_project_matching.matching_algorithm import matching_algorithm
 from io import StringIO
+from functools import wraps
 
 # TODO find a better solution than manually going up one directory with "../"
 UPLOAD_FOLDER = "../student_project_matching/uploads"
@@ -40,6 +41,10 @@ def txt_to_df(txt_file):
     return df
 
 
+class InputValidationError(Exception):
+    pass
+
+
 def validate_students_df(df):
     """
     1st column is students and must be unique
@@ -47,13 +52,12 @@ def validate_students_df(df):
     """
     # check that students are unique
     if not df["student_names"].is_unique:
-        return False, "Not all students are unique"
+        raise InputValidationError("Not all students are unique")
     # check that preferences are unique
     # set() reduces to unique elements
     # assumes that project names != student names
     if not df.apply(lambda row: len(row) == len(set(row)), axis=1).all():
-        return False, "Not all preferences within student are unique"
-    return True, ""
+        raise InputValidationError("Not all preferences within student are unique")
 
 
 def validate_projects_df(df):
@@ -103,7 +107,26 @@ def parse_df_upload(file):
     return df
 
 
+def input_validation_decorator(*validators):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            # Only validate for POST requests
+            if request.method == 'POST':
+                for validate in validators:
+                    try:
+                        validate(request.form)  # Apply validation to form data
+                    except ValidationError as e:
+                        flash(str(e))
+                        return redirect(url_for('home'))  # Redirect to homepage on error
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
+
+
 # TODO determine if there is a reason to store the uploads rather than using them in memory
+@input_validation_decorator(validate_students_df)
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
@@ -118,15 +141,15 @@ def home():
             flash("No selected file")
             return redirect(request.url)
         if students and allowed_file(students.filename):
-            students_filename = secure_filename(students.filename)
-            students.save(os.path.join(app.config["UPLOAD_FOLDER"], students_filename))
+            #students_filename = secure_filename(students.filename)
+            #students.save(os.path.join(app.config["UPLOAD_FOLDER"], students_filename))
             students_df = parse_df_upload(students)
             students_df = students_df.rename(
                 columns={students_df.columns[0]: "student_names"}
             )
-            if not validate_students_df(students_df)[0]:
-                flash(validate_students_df(students_df)[1])
-                return redirect(request.url)
+            #if not validate_students_df(students_df)[0]:
+            #    flash(validate_students_df(students_df)[1])
+            #    return redirect(request.url)
         projects = request.files["projects"]
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
@@ -134,8 +157,8 @@ def home():
             flash("No selected file")
             return redirect(request.url)
         if projects and allowed_file(projects.filename):
-            projects_filename = secure_filename(projects.filename)
-            projects.save(os.path.join(app.config["UPLOAD_FOLDER"], projects_filename))
+            #projects_filename = secure_filename(projects.filename)
+            #projects.save(os.path.join(app.config["UPLOAD_FOLDER"], projects_filename))
             projects_df = parse_df_upload(projects)
             projects_df = projects_df.rename(
                 columns={
