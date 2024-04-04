@@ -61,7 +61,10 @@
 {{matches | safe}}
 </div>
 
-<a href="/download-matches" class="btn btn-primary">Download Matches as CSV</a>
+{% if matches %}
+<a href="/download-matches" class="btn btn-secondary">Download Matches as CSV</a>
+{% endif %}
+
 
 </div>
 
