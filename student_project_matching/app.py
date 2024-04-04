@@ -5,13 +5,15 @@ from flask import (
     request,
     redirect,
     url_for,
+    send_file,
     send_from_directory,
+    session,
     render_template,
 )
 from werkzeug.utils import secure_filename
 import pandas as pd
 from student_project_matching.matching_algorithm import matching_algorithm
-from io import StringIO
+import io
 
 # TODO find a better solution than manually going up one directory with "../"
 UPLOAD_FOLDER = "../student_project_matching/uploads"
@@ -161,6 +163,7 @@ def home():
                 matches.columns[1]: "project_names",
             }
         )
+        session["matches"] = matches.to_json(date_format='iso', orient='split')
         return render_template(
             "home.html",
             students=students_df.to_html(classes="table table-bordered", index=False),
@@ -171,3 +174,21 @@ def home():
     # if not POST, render an empty version of the homepage so the user can upload students and projects
     else:
         return render_template("home.html", students="", projects="", matches="")
+
+
+@app.route("/download-matches", methods = ["GET"])
+def download_matches():
+    json_matches = session.get("matches")
+    if json_matches:
+        matches = pd.read_json(json_matches, orient='split')
+        matches_csv = io.BytesIO()
+        matches.to_csv(matches_csv, index=False, encoding='utf-8')
+        matches_csv.seek(0)
+        return send_file(
+            matches_csv,
+            mimetype='text/csv',
+            as_attachment=True,
+            download_name='student-project-matches.csv'
+        )
+    else:
+        render_template("home.html", students="", projects="", matches="")
