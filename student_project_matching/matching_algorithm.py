@@ -1,78 +1,63 @@
 import pandas as pd
-from collections import defaultdict
+from collections import defaultdict, deque
+
+def preprocess_preferences(students_df, projects_df):
+    students = students_df["student_names"].tolist()
+    projects = projects_df["project_names"].tolist()
+
+    # Project capacity
+    project_capacity = projects_df.set_index("project_names")["max_students"].to_dict()
+
+    # Preprocess student preferences into numerical ranks
+    student_prefs = {row["student_names"]: {proj: rank for rank, proj in enumerate(row[1:].dropna().tolist(), start=1)}
+                     for _, row in students_df.iterrows()}
+
+    # Preprocess project preferences similarly
+    project_prefs = {row["project_names"]: {stud: rank for rank, stud in enumerate(row[2:].dropna().tolist(), start=1)}
+                     for _, row in projects_df.iterrows()}
+
+    # Track project availability
+    project_availability = {project: capacity for project, capacity in project_capacity.items()}
+
+    return students, projects, student_prefs, project_prefs, project_capacity, project_availability
+
+
+def assign_student_to_project(student, project, matches, project_assignments, project_availability):
+    matches[student] = project
+    project_assignments[project].append(student)
+    project_availability[project] -= 1
+
+
+def reevaluate_assignments(project, project_prefs, project_assignments, project_availability, matches):
+    # Sort current assignees by preference, then cut off to respect project capacity
+    sorted_assignees = sorted(project_assignments[project], key=lambda s: project_prefs[project].get(s, float('inf')))
+    project_assignments[project] = sorted_assignees[:project_availability[project]]
+
+    # Update matches based on adjusted assignments
+    for student in list(matches):
+        if student not in project_assignments[project]:
+            del matches[student]
 
 
 def matching_algorithm(students_df, projects_df):
-    students = students_df["student_names"].tolist()
-    projects = projects_df["project_names"].tolist()
-    # Map each project to its capacity
-    project_capacity = projects_df.set_index("project_names")["max_students"].to_dict()
-    # Initialize dictionaries for student and project preferences
-    student_prefs = {}
-    project_prefs = {}
-    # Extract student preferences
-    for _, row in students_df.iterrows():
-        student_prefs[row["student_names"]] = row[1:].dropna().tolist()
-    # Extract project preferences
-    for _, row in projects_df.iterrows():
-        # Assuming the first two columns are 'project_names' and 'max_students'
-        project_prefs[row["project_names"]] = row[2:].dropna().tolist()
-    ### Matching algorithm
-    # Initialize matching and availability:
-    matches = {}  # maps each student to their assigned project
-    project_assignments = defaultdict(
-        list
-    )  # keys are project names and values are lists of students assigned to each project: dynamically updated
-    # Iteratively assign students to projects based on preferences and capacity
-    while len(matches) < len(students):
-        for (
-            student
-        ) in (
-            students
-        ):  # loop continues until all students have been assigned to a project
-            if (
-                student not in matches
-            ):  # iterates over each student who hasn't been matched yet
-                for project in student_prefs[
-                    student
-                ]:  # goes through each student's project preferences in order from most preferred to least preferred
-                    if (
-                        len(project_assignments[project]) < project_capacity[project]
-                        and student in project_prefs[project]
-                    ):  # check capacities and preferences
-                        matches[student] = project
-                        project_assignments[project].append(student)
-                        break
-                    else:
-                        # Handling over-subscription with bidirectional preference consideration
-                        # At capacity: evaluates if the new student could be more preferred compared to current assignees
-                        if student in project_prefs[project]:
-                            current_assignees = project_assignments[project]
-                            # Include the new student for comparison while respecting project preferences
-                            all_prefs = [
-                                s
-                                for s in project_prefs[project]
-                                if s in current_assignees + [student]
-                            ]
-                            preferred_assignees = sorted(
-                                current_assignees + [student],
-                                key=lambda x: all_prefs.index(x),
-                            )[
-                                : project_capacity[project]
-                            ]  # ChatGPT suggestion
+    students, projects, student_prefs, project_prefs, project_capacity, project_availability = preprocess_preferences(
+        students_df, projects_df)
 
-                            if (
-                                student in preferred_assignees
-                            ):  # if the new student is more preferred than the current assignees, adjust
-                                new_assignees = preferred_assignees
-                                for s in current_assignees:
-                                    if s not in new_assignees:
-                                        project_assignments[project].remove(s)
-                                        del matches[s]
-                                if student not in project_assignments[project]:
-                                    project_assignments[project].append(
-                                        student
-                                    )  # update assignments
-                                    matches[student] = project
-                                break
+    matches = {}
+    project_assignments = defaultdict(list)
+    unassigned_students = deque(students)
+
+    while unassigned_students:
+        student = unassigned_students.popleft()
+        for project, _ in sorted(student_prefs[student].items(), key=lambda item: item[1]):
+            if project_availability[project] > 0:
+                assign_student_to_project(student, project, matches, project_assignments, project_availability)
+                break
+            elif student in project_prefs[project]:
+                # Reevaluate based on preferences if at capacity
+                reevaluate_assignments(project, project_prefs, project_assignments, project_availability, matches)
+                if student not in matches:
+                    unassigned_students.append(student)  # Re-queue student for reassignment if they were displaced
+                break
+
     return matches
