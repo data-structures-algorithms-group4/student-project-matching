@@ -6,6 +6,7 @@ import pandas as pd
 from student_project_matching.matching_algorithm import matching_algorithm
 from tests.stable_match_checker import stable_match_checker
 from student_project_matching.app import parse_df_upload
+from student_project_matching.app import validate_students_df, validate_projects_df, validate_students_projects
 from werkzeug.datastructures import FileStorage
 
 # Constant for now
@@ -16,7 +17,6 @@ TEST_DATA_DIR = '../test_data/'
 # Test Environment Setup #
 ##########################
 
-# TO-DO: Add input validation functions from app.py (PR4, 9)
 def preprocess_inputs(students_df, projects_df):
     ''' Pre-process inputs before inputting them to algorithm (from app.py)'''
     # 1. Force column names to agree with algorithm expectations
@@ -32,6 +32,23 @@ def preprocess_inputs(students_df, projects_df):
     # 2. Numericalize project max capacity
     projects_df["max_students"] = pd.to_numeric(projects_df["max_students"])
     return students_df, projects_df
+
+def validate_inputs(students_df, projects_df) -> (bool, str):
+    ''' Validate inputs before inputting them to algorithm (from app.py)'''
+
+    # Student-project lists
+    result, message = validate_students_df(students_df)
+    if not result: return result, message #Failed validation
+
+    # Project-student lists
+    result, message = validate_projects_df(projects_df)
+    if not result: return result, message  # Failed validation
+
+    # Students<->Projects coherency
+    result, message = validate_students_projects(students_df, projects_df)
+    if not result: return result, message  # Failed validation
+
+    return True, ""
 
 def inject_errors(matches: dict, match_errors: dict):
     ''' Injects errors into matches to check that failing modes do fail stable_match_checker. '''
@@ -65,8 +82,12 @@ def run_and_check_test_data(students_filename: str, projects_filename: str, matc
         students_df = parse_df_upload(students)
         projects_df = parse_df_upload(projects)
 
-    # Pre-proces inputs
+    # Pre-process inputs
     students_df, projects_df = preprocess_inputs(students_df, projects_df)
+
+    # Validate inputs
+    result, message = validate_inputs(students_df, projects_df)
+    if not result: return result, message  # Failed validation
 
     # Run algorithm
     matches = matching_algorithm(students_df, projects_df)
