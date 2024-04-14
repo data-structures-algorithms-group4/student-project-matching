@@ -42,6 +42,26 @@ def txt_to_df(txt_file):
     return df
 
 
+#class InputValidationError(Exception):
+#    pass
+#
+#
+#def input_validation_decorator(*validators):
+#    def decorator(f):
+#        @wraps(f)
+#        def decorated_function(*args, **kwargs):
+#            # Only validate for POST requests
+#            if request.method == 'POST':
+#                for validate in validators:
+#                    try:
+#                        validate(request.form)  # Apply validation to form data
+#                    except InputValidationError as e:
+#                        flash(str(e))
+#                        return redirect(url_for('home'))  # Redirect to homepage on error
+#            return f(*args, **kwargs)
+#        return decorated_function
+#    return decorator
+
 def validate_students_df(df):
     """
     1st column is students and must be unique
@@ -105,7 +125,6 @@ def parse_df_upload(file):
     return df
 
 
-# TODO determine if there is a reason to store the uploads rather than using them in memory
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
@@ -114,45 +133,45 @@ def home():
             flash("Need both students and projects")
             return redirect(request.url)
         students = request.files["students"]
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if students.filename == "":
-            flash("No selected file")
-            return redirect(request.url)
-        if students and allowed_file(students.filename):
-            students_filename = secure_filename(students.filename)
-            students.save(os.path.join(app.config["UPLOAD_FOLDER"], students_filename))
-            students_df = parse_df_upload(students)
-            students_df = students_df.rename(
-                columns={students_df.columns[0]: "student_names"}
-            )
-            if not validate_students_df(students_df)[0]:
-                flash(validate_students_df(students_df)[1])
-                return redirect(request.url)
         projects = request.files["projects"]
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
+        if students.filename == "":
+            flash("No students file")
+            return redirect(request.url)
         if projects.filename == "":
-            flash("No selected file")
+            flash("No projects file")
             return redirect(request.url)
-        if projects and allowed_file(projects.filename):
-            projects_filename = secure_filename(projects.filename)
-            projects.save(os.path.join(app.config["UPLOAD_FOLDER"], projects_filename))
-            projects_df = parse_df_upload(projects)
-            projects_df = projects_df.rename(
-                columns={
-                    projects_df.columns[0]: "project_names",
-                    projects_df.columns[1]: "max_students",
-                }
-            )
-            projects_df["max_students"] = pd.to_numeric(projects_df["max_students"])
-            if not validate_projects_df(projects_df)[0]:
-                flash(validate_projects_df(projects_df)[1])
-                return redirect(request.url)
-        if not validate_students_projects(students_df, projects_df)[0]:
-            flash(validate_students_projects(students_df, projects_df)[1])
+        if not allowed_file(students.filename):
+            flash("Students file must be XLSX, CSV, or TXT")
             return redirect(request.url)
-
+        if not allowed_file(projects.filename):
+            flash("Projects file must be XLSX, CSV, or TXT")
+            return redirect(request.url)
+        students_df = parse_df_upload(students)
+        students_df = students_df.rename(
+            columns={students_df.columns[0]: "student_names"}
+        )
+        success, error_message = validate_students_df(students_df)
+        if not success:
+            flash(error_message)
+            return redirect(request.url)
+        projects_df = parse_df_upload(projects)
+        projects_df = projects_df.rename(
+            columns={
+                projects_df.columns[0]: "project_names",
+                projects_df.columns[1]: "max_students",
+            }
+        )
+        projects_df["max_students"] = pd.to_numeric(projects_df["max_students"])
+        success, error_message = validate_projects_df(projects_df)
+        if not success:
+            flash(error_message)
+            return redirect(request.url)
+        success, error_message = validate_students_projects(students_df, projects_df)
+        if not success:
+            flash(error_message)
+            return redirect(request.url)
         matches = pd.DataFrame.from_dict(
             matching_algorithm(students_df, projects_df), orient="index"
         )
