@@ -17,7 +17,6 @@ import io
 
 # TODO find a better solution than manually going up one directory with "../"
 UPLOAD_FOLDER = "../student_project_matching/uploads"
-# TODO add support for CSV
 ALLOWED_EXTENSIONS = {"txt", "xlsx", "csv"}
 
 app = Flask(__name__)
@@ -41,26 +40,6 @@ def txt_to_df(txt_file):
     df = pd.DataFrame(file_contents)
     return df
 
-
-#class InputValidationError(Exception):
-#    pass
-#
-#
-#def input_validation_decorator(*validators):
-#    def decorator(f):
-#        @wraps(f)
-#        def decorated_function(*args, **kwargs):
-#            # Only validate for POST requests
-#            if request.method == 'POST':
-#                for validate in validators:
-#                    try:
-#                        validate(request.form)  # Apply validation to form data
-#                    except InputValidationError as e:
-#                        flash(str(e))
-#                        return redirect(url_for('home'))  # Redirect to homepage on error
-#            return f(*args, **kwargs)
-#        return decorated_function
-#    return decorator
 
 def validate_students_df(df):
     """
@@ -96,7 +75,6 @@ def validate_projects_df(df):
     return True, ""
 
 
-# TODO function that validates the combination of students and projects
 def validate_students_projects(students_df, projects_df):
     """
     Confirms that:
