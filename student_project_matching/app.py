@@ -13,6 +13,7 @@ from flask import (
 from werkzeug.utils import secure_filename
 import pandas as pd
 from student_project_matching.matching_algorithm import matching_algorithm
+from student_project_matching.input_validation import validate_students_df, validate_projects_df, validate_students_projects
 import io
 
 # TODO find a better solution than manually going up one directory with "../"
@@ -39,57 +40,6 @@ def txt_to_df(txt_file):
     file_contents = [line.split(" ") for line in file_contents]
     df = pd.DataFrame(file_contents)
     return df
-
-
-def validate_students_df(df):
-    """
-    1st column is students and must be unique
-    Every column after that is preferences and cannot be repeated
-    """
-    # check that students are unique
-    if not df["student_names"].is_unique:
-        return False, "Not all students are unique"
-    # check that preferences are unique
-    # set() reduces to unique elements
-    # assumes that project names != student names
-    if not df.apply(lambda row: len(row) == len(set(row)), axis=1).all():
-        return False, "Not all preferences within student are unique"
-    return True, ""
-
-
-def validate_projects_df(df):
-    """
-    1st column is projects and must be unique
-    2nd column is max capacity and must be numeric and greater than zero
-    Every column after that is preferences and cannot be repeated
-    """
-    if not df["project_names"].is_unique:
-        return False, "Not all projects are unique"
-    if not df["max_students"].apply(lambda x: isinstance(x, int) and x > 0).all():
-        return False, "max_students is not always an integer greater than zero"
-    # check that preferences are unique
-    # set() reduces to unique elements
-    # assumes that student names != project names or max_capacity
-    if not df.apply(lambda row: len(row) == len(set(row)), axis=1).all():
-        return False, "Not all preferences within project are unique"
-    return True, ""
-
-
-def validate_students_projects(students_df, projects_df):
-    """
-    Confirms that:
-    All projects in students_df appear in projects_df
-    All students in projects_df appear in students_df
-    """
-    students_from_students_df = set(students_df["student_names"].values)
-    projects_from_students_df = set(students_df.iloc[:, 1:].values.ravel())
-    projects_from_project_df = set(projects_df["project_names"].values)
-    students_from_project_df = set(projects_df.iloc[:, 2:].values.ravel())
-    if not projects_from_students_df.issubset(projects_from_project_df):
-        return False, "Some projects in the student file are not in the projects file"
-    if not students_from_project_df.issubset(students_from_students_df):
-        return False, "Some students in the project file are not in the students file"
-    return True, ""
 
 
 def parse_df_upload(file):
