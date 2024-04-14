@@ -10,7 +10,6 @@ from flask import (
     session,
     render_template,
 )
-from werkzeug.utils import secure_filename
 import pandas as pd
 from student_project_matching.matching_algorithm import matching_algorithm
 from student_project_matching.input_validation import validate_students_df, validate_projects_df, validate_students_projects
@@ -53,6 +52,26 @@ def parse_df_upload(file):
     return df
 
 
+def parse_students_df(students_file):
+    students_df = parse_df_upload(students_file)
+    students_df = students_df.rename(
+        columns={students_df.columns[0]: "student_names"}
+    )
+    return students_df
+
+
+def parse_projects_df(projects_file):
+    projects_df = parse_df_upload(projects_file)
+    projects_df = projects_df.rename(
+        columns={
+            projects_df.columns[0]: "project_names",
+            projects_df.columns[1]: "max_students",
+        }
+    )
+    projects_df["max_students"] = pd.to_numeric(projects_df["max_students"])
+    return projects_df
+
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
@@ -76,22 +95,12 @@ def home():
         if not allowed_file(projects.filename):
             flash("Projects file must be XLSX, CSV, or TXT")
             return redirect(request.url)
-        students_df = parse_df_upload(students)
-        students_df = students_df.rename(
-            columns={students_df.columns[0]: "student_names"}
-        )
+        students_df = parse_students_df(students)
         success, error_message = validate_students_df(students_df)
         if not success:
             flash(error_message)
             return redirect(request.url)
-        projects_df = parse_df_upload(projects)
-        projects_df = projects_df.rename(
-            columns={
-                projects_df.columns[0]: "project_names",
-                projects_df.columns[1]: "max_students",
-            }
-        )
-        projects_df["max_students"] = pd.to_numeric(projects_df["max_students"])
+        projects_df = parse_projects_df(projects)
         success, error_message = validate_projects_df(projects_df)
         if not success:
             flash(error_message)
