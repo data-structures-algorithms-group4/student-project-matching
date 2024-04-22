@@ -12,7 +12,11 @@ from flask import (
 )
 import pandas as pd
 from student_project_matching.matching_algorithm import matching_algorithm
-from student_project_matching.input_validation import validate_students_df, validate_projects_df, validate_students_projects
+from student_project_matching.input_validation import (
+    validate_students_df,
+    validate_projects_df,
+    validate_students_projects
+)
 import io
 
 # TODO find a better solution than manually going up one directory with "../"
@@ -49,6 +53,7 @@ def parse_df_upload(file):
     if file_type(file.filename) == "csv":
         file.seek(0)
         df = pd.read_csv(file, header=0)
+    # TODO replace "" with explicit missing
     return df
 
 
