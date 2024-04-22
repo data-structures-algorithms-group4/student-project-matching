@@ -9,7 +9,7 @@ def preprocess_preferences(students_df, projects_df):
     project_capacity = projects_df.set_index("project_names")["max_students"].to_dict()
 
     # Preprocess student preferences into numerical ranks
-    student_prefs = {row["student_names"]: {proj: rank for rank, proj in enumerate(row[1:].dropna().tolist(), start=1)}
+    student_prefs = {row["student_names"]: deque(sorted(((proj, rank) for rank, proj in enumerate(row[1:].dropna().tolist(), start=1)), key=lambda x: x[1]))
                      for _, row in students_df.iterrows()}
 
     # Preprocess project preferences similarly
@@ -21,27 +21,29 @@ def preprocess_preferences(students_df, projects_df):
 
     return students, projects, student_prefs, project_prefs, project_capacity, project_availability
 
-
 def assign_student_to_project(student, project, matches, project_assignments, project_availability):
     matches[student] = project
     project_assignments[project].append(student)
     project_availability[project] -= 1
 
-
 def reevaluate_assignments(project, project_prefs, project_assignments, project_availability, matches):
-    # Sort current assignees by preference, then cut off to respect project capacity
-    sorted_assignees = sorted(project_assignments[project], key=lambda s: project_prefs[project].get(s, float('inf')))
-    project_assignments[project] = sorted_assignees[:project_availability[project]]
+    # Get all current assignees and add the currently considered student
+    current_assignees = project_assignments[project]
+    preferred_assignees = sorted(current_assignees, key=lambda s: project_prefs[project].get(s, float('inf')))
 
-    # Update matches based on adjusted assignments
-    for student in list(matches):
-        if student not in project_assignments[project]:
-            del matches[student]
+    # Enforce project capacity by retaining only the top-preferred students within capacity limits
+    if len(preferred_assignees) > project_availability[project]:
+        # Students who cannot be accommodated due to capacity are removed from the project
+        for student in preferred_assignees[project_availability[project]:]:
+            del matches[student]  # Remove these students from matches
+            project_assignments[project].remove(student)  # Remove from project assignments
 
+        preferred_assignees = preferred_assignees[:project_availability[project]]
+
+    project_assignments[project] = preferred_assignees
 
 def matching_algorithm(students_df, projects_df):
-    students, projects, student_prefs, project_prefs, project_capacity, project_availability = preprocess_preferences(
-        students_df, projects_df)
+    students, projects, student_prefs, project_prefs, project_capacity, project_availability = preprocess_preferences(students_df, projects_df)
 
     matches = {}
     project_assignments = defaultdict(list)
@@ -49,15 +51,20 @@ def matching_algorithm(students_df, projects_df):
 
     while unassigned_students:
         student = unassigned_students.popleft()
-        for project, _ in sorted(student_prefs[student].items(), key=lambda item: item[1]):
-            if project_availability[project] > 0:
+        while student_prefs[student]:
+            project, _ = student_prefs[student].popleft()  # Unpack the project and rank from the deque
+            if student in project_prefs[project] and project_availability[project] > 0:
                 assign_student_to_project(student, project, matches, project_assignments, project_availability)
                 break
             elif student in project_prefs[project]:
-                # Reevaluate based on preferences if at capacity
-                reevaluate_assignments(project, project_prefs, project_assignments, project_availability, matches)
-                if student not in matches:
-                    unassigned_students.append(student)  # Re-queue student for reassignment if they were displaced
+                # Reevaluate assignments if the project is at full capacity
+                displaced = reevaluate_assignments(project, project_prefs, project_assignments, project_availability, matches)
+                if student not in matches:  # If student is not matched
+                    unassigned_students.append(student)
+                if displaced:  # Requeue displaced students
+                    for d_student in displaced:
+                        unassigned_students.append(d_student)
                 break
 
     return matches
+
