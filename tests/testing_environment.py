@@ -92,6 +92,10 @@ def run_and_check_test_data(students_filename: str, projects_filename: str, matc
     # Run algorithm
     matches = matching_algorithm(students_df, projects_df)
 
+    print("Matching Results:")
+    for student, project in matches.items():
+        print(f"{student} is assigned to {project}")
+
     # Inject errors to test failing modes (none by default)
     matches = inject_errors(matches, match_errors)
 
