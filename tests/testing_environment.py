@@ -8,6 +8,7 @@ from tests.stable_match_checker import stable_match_checker
 from student_project_matching.app import parse_df_upload
 from student_project_matching.app import validate_students_df, validate_projects_df, validate_students_projects
 from werkzeug.datastructures import FileStorage
+import logging
 
 # Constant for now
 # TO-DO: change if we need to break up test data between algorithm and input validation
@@ -92,12 +93,22 @@ def run_and_check_test_data(students_filename: str, projects_filename: str, matc
     # Run algorithm
     matches = matching_algorithm(students_df, projects_df)
 
-    print("Matching Results:")
-    for student, project in matches.items():
-        print(f"{student} is assigned to {project}")
-
     # Inject errors to test failing modes (none by default)
     matches = inject_errors(matches, match_errors)
 
     # Check algorithm (returns bool, string)
     return stable_match_checker(students_df, projects_df, matches)
+
+def config_logging(log_filename: str, log_level_str: str = 'INFO'):
+    '''Configure logging'''
+    level_mapping = {
+        'DEBUG': logging.DEBUG,
+        'INFO': logging.INFO,
+        'WARNING': logging.WARNING,
+        'ERROR': logging.ERROR,
+        'CRITICAL': logging.CRITICAL
+    }
+    log_level = level_mapping[log_level_str]
+    logging.basicConfig(filename=log_filename, filemode='w',
+                        format='%(levelname)s:%(funcName)s:%(message)s',
+                        level=log_level, force=True)
