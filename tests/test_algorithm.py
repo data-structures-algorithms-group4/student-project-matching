@@ -26,10 +26,24 @@ def test_td_2(students_filename = 'td_2_students.xlsx', projects_filename = 'td_
     result, message = run_and_check_test_data(students_filename, projects_filename)
     assert result, message
 
-@pytest.mark.skip()
+#@pytest.mark.skip()
+def test_s_not_chosen(students_filename = 'td_1_students.xlsx', projects_filename = 'p_td_1_displaced_s_not_chosen.xlsx'):
+    ''' One student not chosen by any projects (after reeval). Expect: PASS'''
+    config_logging('test_s_not_chosen.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#@pytest.mark.skip()
 def test_p_not_chosen(students_filename = 's_project_not_chosen.xlsx', projects_filename = 'p_project_not_chosen.xlsx'):
     ''' One project not chosen by any students. Expect: PASS'''
     config_logging('test_p_not_chosen.log')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_s_lose_reeval(students_filename = 's_project_pref_ties.xlsx', projects_filename = 'p_student_pref_ties_lose_reeval.xlsx'):
+    ''' Test reevaluation case where student does not "win" a spot. Expect: PASS'''
+    config_logging('test_s_lose_reeval.log', 'DEBUG')
     result, message = run_and_check_test_data(students_filename, projects_filename)
     assert result, message
 
