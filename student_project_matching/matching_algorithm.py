@@ -67,30 +67,37 @@ def reevaluate_assignments(project, project_prefs, project_assignments, project_
 
 def matching_algorithm(students_df, projects_df):
     students, projects, student_prefs, project_prefs, project_capacity, project_availability = preprocess_preferences(students_df, projects_df)
-    logging.debug(f'student_prefs: {student_prefs}')
-    logging.debug(f'project_prefs: {project_prefs}')
 
     matches = {}
     project_assignments = defaultdict(list)
     unassigned_students = deque(students)
+    requeued_students = set()  # Set to track requeued students
 
     while unassigned_students:
         student = unassigned_students.popleft()
-        logging.info(f'Process student {student}')
-        while student_prefs[student]:
-            project, _ = student_prefs[student].popleft()  # Unpack the project and rank from the deque
-            logging.info(f'Check project {project} with availability {project_availability[project]}')
+        processed = False  # Flag to indicate if the student has been processed in this iteration
+
+        while student_prefs[student] and not processed:
+            project, _ = student_prefs[student].popleft()
             if student in project_prefs[project] and project_availability[project] > 0:
                 assign_student_to_project(student, project, matches, project_assignments, project_availability)
-                break
+                processed = True
             elif student in project_prefs[project]:
                 displaced = reevaluate_assignments(project, project_prefs, project_assignments, project_availability, matches, project_capacity, student)
-                if student not in matches:  # If student is not matched
+                if student not in matches and student not in requeued_students:
                     unassigned_students.append(student)
-                if displaced:  # Requeue displaced students
+                    requeued_students.add(student)
+                if displaced:
                     for d_student in displaced:
-                        unassigned_students.append(d_student)
-                break
+                        if d_student != student and d_student not in requeued_students:
+                            unassigned_students.append(d_student)
+                            requeued_students.add(d_student)
+                processed = True
+
+        if not processed and student not in requeued_students:
+            unassigned_students.append(student)
+            requeued_students.add(student)
+
         logging.info(f'Updated project assignments: {project_assignments}')
         logging.debug(f'Updated unassigned students: {unassigned_students}')
     return matches
