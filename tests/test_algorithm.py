@@ -30,6 +30,20 @@ def test_td_2(students_filename = 'td_2_students.xlsx', projects_filename = 'td_
     result, message = run_and_check_test_data(students_filename, projects_filename)
     assert result, message
 
+#@pytest.mark.skip()
+def test_td_1_csv(students_filename = 'td_1_students.csv', projects_filename = 'td_1_projects.csv'):
+    ''' Test data set 1 with CSV files. Expect: PASS'''
+    config_logging('test_td_1_csv.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_td_1_txt(students_filename = 'td_1_students.txt', projects_filename = 'td_1_projects.txt'):
+    ''' Test data set 1 with text files. Expect: PASS'''
+    config_logging('test_td_1_txt.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
 ##############
 # By Matches #
 ##############
