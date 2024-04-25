@@ -12,6 +12,10 @@ from tests.testing_environment import run_and_check_test_data, config_logging
 # def config_logging(log_filename: str, log_level_str: str)
 # log_level_str options: 'DEBUG', 'INFO' (default), 'WARNING', 'ERROR', 'CRITICAL'
 
+##################
+# Basic Complete #
+##################
+
 #@pytest.mark.skip()
 def test_td_1(students_filename = 'td_1_students.xlsx', projects_filename = 'td_1_projects.xlsx'):
     ''' Test data set 1. Expect: PASS'''
@@ -26,10 +30,21 @@ def test_td_2(students_filename = 'td_2_students.xlsx', projects_filename = 'td_
     result, message = run_and_check_test_data(students_filename, projects_filename)
     assert result, message
 
+##############
+# By Matches #
+##############
+
 #@pytest.mark.skip()
 def test_s_not_chosen(students_filename = 'td_1_students.xlsx', projects_filename = 'p_td_1_displaced_s_not_chosen.xlsx'):
     ''' One student not chosen by any projects (after reeval). Expect: PASS'''
     config_logging('test_s_not_chosen.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_s_not_listed(students_filename = 'td_1_students.xlsx', projects_filename = 'p_td_1_s_not_listed.xlsx'):
+    ''' One student not listed by any projects. Expect: PASS'''
+    config_logging('test_s_not_listed.log', 'DEBUG')
     result, message = run_and_check_test_data(students_filename, projects_filename)
     assert result, message
 
@@ -41,15 +56,142 @@ def test_p_not_chosen(students_filename = 's_project_not_chosen.xlsx', projects_
     assert result, message
 
 #@pytest.mark.skip()
+def test_s_same_first_choice(students_filename = 's_same_first_choice.xlsx', projects_filename = 'p_same_first_choice.xlsx'):
+    ''' Students all have same first choice. Expect: PASS'''
+    config_logging('test_s_same_first_choice.log')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_p_same_first_choice(students_filename = 's2_same_first_choice.xlsx', projects_filename = 'p2_same_first_choice.xlsx'):
+    ''' Projects all have same first choice. Expect: PASS'''
+    config_logging('test_p_same_first_choice.log')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_s_same_last_choice(students_filename = 's_same_last_choice.xlsx', projects_filename = 'p_same_last_choice.xlsx'):
+    ''' Students all have same last choice. Expect: PASS'''
+    config_logging('test_s_same_last_choice.log')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_p_same_last_choice(students_filename = 's2_same_last_choice.xlsx', projects_filename = 'p2_same_last_choice.xlsx'):
+    ''' Projects all have same last choice. Expect: PASS'''
+    config_logging('test_p_same_last_choice.log')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_all_pref_ties(students_filename = 's_project_pref_ties.xlsx', projects_filename = 'p_student_pref_ties.xlsx'):
+    ''' Both students and projects have all preference ties. Expect: PASS'''
+    config_logging('test_all_pref_ties.log')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#@pytest.mark.skip()
 def test_s_lose_reeval(students_filename = 's_project_pref_ties.xlsx', projects_filename = 'p_student_pref_ties_lose_reeval.xlsx'):
     ''' Test reevaluation case where student does not "win" a spot. Expect: PASS'''
     config_logging('test_s_lose_reeval.log', 'DEBUG')
     result, message = run_and_check_test_data(students_filename, projects_filename)
     assert result, message
 
-@pytest.mark.skip()
+#pytest.mark.skip()
+def test_no_matches(students_filename = 's_no_matches.xlsx', projects_filename = 'p_no_matches.xlsx'):
+    ''' Test case where no students and projects match at all. Expect: PASS'''
+    config_logging('test_no_matches.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#############
+# By Number #
+#############
+
+#@pytest.mark.skip()
+def test_p_non_full(students_filename = 'td_1_students.xlsx', projects_filename = 'p_td_1_non_full.xlsx'):
+    ''' Projects remain with space after all students matched. Expect: PASS'''
+    config_logging('test_p_non_full.log')
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_s_unmatched(students_filename = 'td_1_students.xlsx', projects_filename = 'p_td_1_s_unmatched.xlsx'):
+    ''' Some students are unmatched after project spaces have been filled. Expect: PASS'''
+    config_logging('test_s_unmatched.log')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_s_1_blank(students_filename = '1_blank_students.xlsx', projects_filename = 'td_1_projects.xlsx'):
+    ''' One student has one less project preference than other students. Expect: PASS'''
+    config_logging('test_s_1_blank.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_p_1_blank(students_filename = 'td_1_students.xlsx', projects_filename = '1_blank_projects.xlsx'):
+    ''' One project has one less student preference than other projects. Expect: PASS'''
+    config_logging('test_p_1_blank.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    assert result, message
+
+#@pytest.mark.skip()
 def test_s_vary_p_pref_size(students_filename = 's_varying_preferences_to_projects.xlsx', projects_filename = 'p_varying_preferences_to_projects.xlsx'):
-    ''' Vary size of S preference list of Ps. Expect: PASS'''
-    config_logging('test_s_vary_p_pref_size.log')
+    ''' Vary size of student preference list of projects. Expect: PASS'''
+    config_logging('test_s_vary_p_pref_size.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_p_vary_s_pref_size(students_filename = 's2_varying_preferences_to_projects.xlsx', projects_filename = 'p2_varying_preferences_to_projects.xlsx'):
+    ''' Vary size of project preference list of students. Expect: PASS'''
+    config_logging('test_p_vary_s_pref_size.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_both_vary_pref_sizes(students_filename = 's_varying_preferences_to_projects.xlsx', projects_filename = 'p2_varying_preferences_to_projects.xlsx'):
+    ''' Vary size of both student and project preference lists. Expect: PASS'''
+    config_logging('test_both_vary_pref_sizes.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_s_no_prefs(students_filename = 's_td_1_no_prefs.xlsx', projects_filename = 'td_1_projects.xlsx'):
+    ''' Check when a student has an empty project preference list. Expect: PASS'''
+    config_logging('test_s_no_prefs.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_p_no_prefs(students_filename = 'td_1_students.xlsx', projects_filename = 'p_td_1_no_prefs.xlsx'):
+    ''' Check when a project has an empty student preference list. Expect: PASS'''
+    config_logging('test_p_no_prefs.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    assert result, message
+
+############
+# By P-max #
+############
+
+#@pytest.mark.skip()
+def test_p_vary_max(students_filename = 'td_1_students.xlsx', projects_filename = 'p_vary_max.xlsx'):
+    ''' Projects have varying maximum capacities. Expect: PASS'''
+    config_logging('test_p_vary_max.log')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_p_increased_max(students_filename = 'td_1_students.xlsx', projects_filename = 'p_increased_max.xlsx'):
+    ''' Projects have increased maximum capacities greater than its preference list sizes. Expect: PASS'''
+    config_logging('test_p_increased_max.log')
+    result, message = run_and_check_test_data(students_filename, projects_filename)
+    assert result, message
+
+#@pytest.mark.skip()
+def test_p_reduced_max(students_filename = 'td_1_students.xlsx', projects_filename = 'p_reduced_max.xlsx'):
+    ''' Projects have reduced maximum capacities less than its preference list sizes. Expect: PASS'''
+    config_logging('test_p_reduced_max.log')
     result, message = run_and_check_test_data(students_filename, projects_filename)
     assert result, message
