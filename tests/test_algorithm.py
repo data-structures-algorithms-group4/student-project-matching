@@ -209,3 +209,14 @@ def test_p_reduced_max(students_filename = 'td_1_students.xlsx', projects_filena
     config_logging('test_p_reduced_max.log')
     result, message = run_and_check_test_data(students_filename, projects_filename)
     assert result, message
+
+###############
+# Random Data #
+###############
+
+#@pytest.mark.skip()
+def test_random_data_n200(students_filename = 'random_student_preferences.csv', projects_filename = 'random_project_assignments.csv'):
+    ''' Large size (n=200) random data from test_data_random.ipynb. Expect: PASS'''
+    config_logging('test_random_data_n200.log')
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    assert result, message
