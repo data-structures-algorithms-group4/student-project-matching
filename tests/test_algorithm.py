@@ -220,3 +220,10 @@ def test_random_data_n200(students_filename = 'random_student_preferences.csv', 
     config_logging('test_random_data_n200.log')
     result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
     assert result, message
+
+#@pytest.mark.skip()
+def test_mds_people(students_filename = 'MDS_students_test.xlsx', projects_filename = 'MDS_projects_test.xlsx'):
+    ''' MDS students and fascinating projects for in-class demo. Expect: PASS'''
+    config_logging('test_mds_people.log')
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    assert result, message
