@@ -67,6 +67,8 @@ def reevaluate_assignments(project, project_prefs, project_assignments, project_
 
 def matching_algorithm(students_df, projects_df):
     students, projects, student_prefs, project_prefs, project_capacity, project_availability = preprocess_preferences(students_df, projects_df)
+    logging.debug(f'student_prefs: {student_prefs}')
+    logging.debug(f'project_prefs: {project_prefs}')
 
     matches = {}
     project_assignments = defaultdict(list)
