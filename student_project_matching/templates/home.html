@@ -1,75 +1,72 @@
-<!doctype html>
-
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-  <title>Student-Project Matching</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>Home</title>
+   <style>
+    body {
+      background-color: #f8f9fa; /* Light gray background */
+      font-family: 'Montserrat', sans-serif;
+      padding: 20px;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Montserrat', sans-serif;
+      color: #343a40; /* Dark gray text color */
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    /* New style rule for the header */
+    h1 {
+      background-color: #dc3545; /* Red background color */
+      color: #fff; /* White text color */
+      padding: 15px 20px; /* Increased padding for better readability */
+      border-radius: 10px; /* Rounded corners for the header */
+      text-align: center; /* Center-align the header text */
+    }
+    p {
+      color: #6c757d; /* Gray text color */
+      margin-bottom: 20px; /* Increased margin for better spacing */
+    }
+    a {
+      color: #007bff; /* Bootstrap primary color for link */
+      text-decoration: none; /* Remove underline from the link */
+      font-weight: bold; /* Make link text bold */
+      transition: color 0.3s ease; /* Smooth transition for link color change */
+    }
+    a:hover {
+      color: #0056b3; /* Darker shade of primary color on hover */
+    }
+  </style>
 </head>
-
-
 <body>
+    <h1>Welcome to Student-Project Matching</h1>
+    <p>This website helps students find suitable matches with their preferred projects based on their preferences and the project requirements.</p>
+    <!-- Add a link to the matches page -->
+    <p><a href="/matches">Go to Matches</a></p>
 
-<div class="container" id="homepage">
-  <div class="row text-center">
-    <h1>Student-Project Matching</h1>
-  </div>
+    <!-- New section with provided text -->
+    <h2>Algorithm in Pseudocode</h2>
+    <p>Abraham, David J., Robert W. Irving, and David F. Manlove. “Two Algorithms for the Student-Project Allocation Problem.” Journal of Discrete Algorithms 5, no. 1 (March 1, 2007): 73–90. <a href="https://doi.org/10.1016/j.jda.2006.03.006">https://doi.org/10.1016/j.jda.2006.03.006</a>.</p>
+    <!-- Include the pseudocode here -->
 
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <div id="flash-message">
-      <h2>Problems with Uploaded Data</h2>
-      {% for message in messages %}
-        <p>{{ message }}</p>
-      {% endfor %}
-    </div>
-  {% endif %}
-{% endwith %}
-
-<div class="row text-center" id="upload">
-<form method=post enctype=multipart/form-data>
-  <div>
-    <label for="students">Student Preferences:</label>
-    <input type=file id=students name=students>
-  </div>
-  <div>
-    <label for="projects">Projects:</label><input type=file id=projects name=projects>
-  </div>
-  <input type=submit value=Upload>
-</form>
-</div>
-
-<div class="row text-center" id="student_preferences">
-<h2>Student Preferences</h2>
-
-{{students | safe}}
-</div>
-
-<div class="row text-center" id="projects">
-<h2>Projects</h2>
-
-{{projects | safe}}
-</div>
-
-<div class="row text-center" id="matches">
-<h2>Student-Project Matches</h2>
-
-{{matches | safe}}
-</div>
-
-{% if matches %}
-<div class="row text-center" id="download">
-  <a href="/download-matches" class="btn btn-secondary">Download Matches as CSV</a>
-</div>
-{% endif %}
-
-
-</div>
-
+    <!-- Suggestions for algorithm enhancement -->
+    <h3>ChatGPT (selected) suggestions for algorithm enhancement:</h3>
+    <ol>
+      <li>Incorporating Lecturer Preferences</li>
+      <li>Handling Ties in Preferences</li>
+      <li>Optimizing for Global Happiness</li>
+      <li>Dynamic Capacity Management</li>
+      <li>Fairness and Diversity Considerations</li>
+      <li>Iterative Feedback and Re-Matching</li>
+      <li>Algorithm Efficiency</li>
+      <li>Post-Matching Analysis Tools</li>
+    </ol>
 </body>
-
 </html>
