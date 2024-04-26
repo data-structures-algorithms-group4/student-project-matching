@@ -227,3 +227,4 @@ def test_mds_people(students_filename = 'MDS_students_test.xlsx', projects_filen
     config_logging('test_mds_people.log')
     result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
     assert result, message
+
