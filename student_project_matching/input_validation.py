@@ -1,3 +1,17 @@
+import pandas as pd
+
+
+# We do not want error messages for empty cells in the spreadsheet people upload
+# Pandas converts empty cells ("") to nan
+def ignore_missings(row):
+    return [col for col in row if not pd.isna(col)]
+
+
+def check_duplicates(row):
+    row = ignore_missings(row)
+    return len(row) == len(set(row))
+    
+
 def validate_students_df(df):
     """
     1st column is students and must be unique
@@ -9,7 +23,7 @@ def validate_students_df(df):
     # check that preferences are unique
     # set() reduces to unique elements
     # assumes that project names != student names
-    if not df.apply(lambda row: len(row) == len(set(row)), axis=1).all():
+    if not df.apply(check_duplicates, axis=1).all():
         return False, "Not all preferences within student are unique"
     return True, ""
 
@@ -27,7 +41,7 @@ def validate_projects_df(df):
     # check that preferences are unique
     # set() reduces to unique elements
     # assumes that student names != project names or max_capacity
-    if not df.apply(lambda row: len(row) == len(set(row)), axis=1).all():
+    if not df.apply(check_duplicates, axis=1).all():
         return False, "Not all preferences within project are unique"
     return True, ""
 
@@ -38,10 +52,10 @@ def validate_students_projects(students_df, projects_df):
     All projects in students_df appear in projects_df
     All students in projects_df appear in students_df
     """
-    students_from_students_df = set(students_df["student_names"].values)
-    projects_from_students_df = set(students_df.iloc[:, 1:].values.ravel())
-    projects_from_project_df = set(projects_df["project_names"].values)
-    students_from_project_df = set(projects_df.iloc[:, 2:].values.ravel())
+    students_from_students_df = set(ignore_missings(students_df["student_names"].values))
+    projects_from_students_df = set(ignore_missings(students_df.iloc[:, 1:].values.ravel()))
+    projects_from_project_df = set(ignore_missings(projects_df["project_names"].values))
+    students_from_project_df = set(ignore_missings(projects_df.iloc[:, 2:].values.ravel()))
     if not projects_from_students_df.issubset(projects_from_project_df):
         return False, "Some projects in the student file are not in the projects file"
     if not students_from_project_df.issubset(students_from_students_df):
