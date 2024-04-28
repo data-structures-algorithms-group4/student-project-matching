@@ -106,6 +106,12 @@
 </div>
 {% endif %}
 
+{% if unmatched_students is not none %}
+<div class="row text-center" id="download">
+  <a href="/download-unmatched_students" class="btn btn-secondary">Download Unmatched Students as CSV</a>
+</div>
+{% endif %}
+
 <!-- Button to return to the main page -->
 <div class="row text-center" id="return-button">
   <a href="/" class="btn btn-sm btn-light">Return to Main Page</a> <!-- Using btn-light for a lighter button -->

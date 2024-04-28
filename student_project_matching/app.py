@@ -77,8 +77,13 @@ def parse_projects_df(projects_file):
     return projects_df
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def home():
+    return render_template("home.html")
+
+
+@app.route("/matching", methods=["GET", "POST"])
+def matching():
     if request.method == "POST":
         # check if the post request has the file part
         if "students" not in request.files or "projects" not in request.files:
@@ -125,16 +130,21 @@ def home():
             }
         )
         session["matches"] = matches.to_json(date_format='iso', orient='split')
+        unmatched_students = students_df["student_names"][~students_df["student_names"].isin(matches["student_names"])].to_frame()
+        session["unmatched_students"] = unmatched_students.to_json(date_format='iso', orient='split')
+        if unmatched_students.empty:
+            unmatched_students = None
         return render_template(
-            "home.html",
+            "matches.html",
             students=students_df.to_html(classes="table table-bordered", index=False),
             projects=projects_df.to_html(classes="table table-bordered", index=False),
             matches=matches.to_html(classes="table table-bordered", index=False),
+            unmatched_students=unmatched_students
         )
 
     # if not POST, render an empty version of the homepage so the user can upload students and projects
     else:
-        return render_template("home.html", students="", projects="", matches="")
+        return render_template("matches.html", students="", projects="", matches="", unmatched_students=None)
 
 
 @app.route("/download-matches", methods = ["GET"])
@@ -152,4 +162,22 @@ def download_matches():
             download_name='student-project-matches.csv'
         )
     else:
-        render_template("home.html", students="", projects="", matches="")
+        render_template("matches.html", students="", projects="", matches="", unmatched_students=None)
+
+
+@app.route("/download-unmatched_students", methods = ["GET"])
+def download_unmatched_students():
+    json_unmatched_students = session.get("unmatched_students")
+    if json_unmatched_students:
+        unmatched_students = pd.read_json(json_unmatched_students, orient='split')
+        unmatched_students_csv = io.BytesIO()
+        unmatched_students.to_csv(unmatched_students_csv, index=False, encoding='utf-8')
+        unmatched_students_csv.seek(0)
+        return send_file(
+            unmatched_students_csv,
+            mimetype='text/csv',
+            as_attachment=True,
+            download_name='student-project-unmatched-students.csv'
+        )
+    else:
+        render_template("matches.html", students="", projects="", matches="", unmatched_students=None)
