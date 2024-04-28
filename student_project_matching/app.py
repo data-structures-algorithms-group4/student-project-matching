@@ -40,7 +40,11 @@ def txt_to_df(txt_file):
     txt_file.seek(0)
     file_contents = txt_file.read().decode("utf-8")
     file_contents = file_contents.splitlines()
-    file_contents = [line.split(" ") for line in file_contents]
+    print(f'before: {file_contents}\n')
+    # turn into a nested list and drop empty rows
+    file_contents = [line.strip().split(" ") for line in file_contents if line.strip()]
+    print(f'after: {file_contents}\n')
+    print()
     df = pd.DataFrame(file_contents)
     return df
 
@@ -115,6 +119,8 @@ def matching():
         if not success:
             flash(error_message)
             return redirect(request.url)
+        print(students_df)
+        print(projects_df)
         success, error_message = validate_students_projects(students_df, projects_df)
         if not success:
             flash(error_message)
@@ -129,6 +135,7 @@ def matching():
                 matches.columns[1]: "project_names",
             }
         )
+        print(f'Matches: {matches}')
         session["matches"] = matches.to_json(date_format='iso', orient='split')
         unmatched_students = students_df["student_names"][~students_df["student_names"].isin(matches["student_names"])].to_frame()
         session["unmatched_students"] = unmatched_students.to_json(date_format='iso', orient='split')
