@@ -24,76 +24,110 @@
       margin-bottom: 10px;
     }
 
-    /* Style for the header */
-        .header {
-            background-color: #9fd3c7; /* Light blue */
-            color: #343a40; /* Dark gray text color */
-            padding: 15px 20px; /* Increased padding for better readability */
-            border-radius: 10px; /* Rounded corners for the header */
-            text-align: center; /* Center-align the header text */
-    }
+/* Style for the header */
+.header {
+    background-color: #9fd3c7; /* Light blue */
+    color: #343a40; /* Dark gray text color */
+    padding: 20px; /* Increased padding for better readability */
+    border-radius: 10px; /* Rounded corners for the header */
+    text-align: center; /* Center-align the header text */
+    margin-bottom: 20px; /* Add margin to separate from the menu bar */
+    width: 100%; /* Set the width of the header */
+    margin: 0 auto; /* Center the header */
+    height: auto; /* Auto height to fit content */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
 
-    /* Style for form */
-    form {
-      margin-top: 20px;
-      padding: 20px;
-      border: 1px solid #dee2e6; /* Light border */
-      border-radius: 10px;
-      background-color: #fff; /* White background */
-    }
-    label {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: bold;
-      color: #6c757d; /* Gray text color */
-    }
-    input[type="file"] {
-      margin-bottom: 15px;
-    }
-    input[type="submit"] {
-      background-color: #dcdcdc; /* Light gray background */
-      color: #343a40; /* Dark gray text color */
-      border: none;
-      border-radius: 5px;
-      padding: 8px 16px; /* Adjust padding to make the button smaller */
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    input[type="submit"]:hover {
-      background-color: #c0c0c0; /* Darker shade of gray on hover */
-    }
+/* Style for form */
+form {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #dee2e6; /* Light border */
+    border-radius: 10px;
+    background-color: #fff; /* White background */
+}
 
-    /* New style for Match me container */
-    .match-me-container {
-      background-color: #9fd3c7; /* Light blue */
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #6c757d; /* Gray text color */
+}
 
-    /* New style for the menu bar */
-    nav {
-      background-color: #f2f2f2; /* Light gray background */
-      padding: 10px 0; /* Adjust padding for better spacing */
-      border-radius: 10px; /* Rounded corners for the menu bar */
-      text-align: center; /* Center-align the menu items */
-    }
-    nav ul {
-      display: inline-block; /* Display menu items in a single line */
-    }
-    nav li {
-      display: inline; /* Display menu items inline */
-      margin-right: 20px; /* Add some margin between menu items */
-    }
-    nav a {
-      color: #385170;  /* Dark blue */
-      text-decoration: none; /* Remove underline from the link */
-      font-weight: bold; /* Make link text bold */
-      transition: color 0.3s ease; /* Smooth transition for link color change */
-    }
-    nav a:hover {
-      color: #0056b3; /* Darker shade of primary color on hover */
-    }
+input[type="file"] {
+    margin-bottom: 15px;
+}
+
+input[type="submit"] {
+    background-color: #dcdcdc; /* Light gray background */
+    color: #343a40; /* Dark gray text color */
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px; /* Adjust padding to make the button smaller */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #c0c0c0; /* Darker shade of gray on hover */
+}
+
+/* New style for Match me container */
+.match-me-container {
+    background-color: #9fd3c7; /* Light blue */
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    height: auto; /* Auto height to fit content */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
+
+/* Style for the menu bar */
+nav {
+    background-color: #f2f2f2; /* Light gray background */
+    padding: 10px 0; /* Adjust padding for better spacing */
+    border-radius: 10px; /* Rounded corners for the menu bar */
+    text-align: center; /* Center-align the menu items */
+    margin-top: -10px; /* Reduce top margin to bring closer to the header */
+    width: 100%; /* Set the width of the menu bar */
+    margin: 0 auto; /* Center the menu bar */
+    height: auto; /* Auto height to fit content */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
+
+nav ul {
+    display: inline-block; /* Display menu items in a single line */
+}
+
+nav li {
+    display: inline; /* Display menu items inline */
+    margin-right: 20px; /* Add some margin between menu items */
+}
+
+nav a {
+    color: #385170; /* Dark blue */
+    text-decoration: none; /* Remove underline from the link */
+    font-weight: bold; /* Make link text bold */
+    transition: color 0.3s ease; /* Smooth transition for link color change */
+}
+
+nav a:hover {
+    color: #0056b3; /* Darker shade of primary color on hover */
+}
+
+.github-logo {
+    width: 30px; /* Adjusted width of the logo */
+    vertical-align: middle; /* Align the logo vertically */
+    margin-left: 5px; /* Add some margin to the left of the logo */
+}
+
+/* Style for the text explanation */
+p {
+    margin: 20px; /* Add margin from the edge of the website */
+    text-align: justify; /* Align text to justify */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
+
   </style>
 </head>
 <body>
@@ -107,7 +141,7 @@
 <nav>
   <ul>
     <li><a href="/">About</a></li>
-    <li><a href="https://github.com/data-structures-algorithms-group4/student-project-matching/tree/main">Visit our GitHub Repository</a></li>
+    <li><a href="https://github.com/your-repository">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
   </ul>
 </nav>
 {% with messages = get_flashed_messages() %}
@@ -121,9 +155,13 @@
   {% endif %}
 {% endwith %}
 
+     <!-- Centered image -->
+    <div class="col-md-6 offset-md-3 mt-3">
+        <div class="text-center">
+            <img src="/static/DSA_notebooks.jpg" alt="DSA Notebooks" class="img-fluid" style="width: 250px; height: auto;">
+        </div>
+    </div>
 
-<div class="row" id="upload">
-  <div class="col-md-6 offset-md-3">
     <form method="post" enctype="multipart/form-data">
       <label for="students">Upload Student Preferences:</label>
       <input type="file" id="students" name="students" class="form-control-file">
@@ -164,7 +202,7 @@
 <nav>
     <ul>
         <li><a href="/matches">About</a></li>
-        <li><a href="https://github.com/data-structures-algorithms-group4/student-project-matching/tree/main">Visit our GitHub Repository</a></li>
+        <li><a href="https://github.com/your-repository">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
     </ul>
 </nav>
 </html>
