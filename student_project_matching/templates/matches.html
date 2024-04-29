@@ -23,6 +23,16 @@
     li {
       margin-bottom: 10px;
     }
+
+    /* Style for the header */
+        .header {
+            background-color: #9fd3c7; /* Light blue */
+            color: #343a40; /* Dark gray text color */
+            padding: 15px 20px; /* Increased padding for better readability */
+            border-radius: 10px; /* Rounded corners for the header */
+            text-align: center; /* Center-align the header text */
+    }
+
     /* Style for form */
     form {
       margin-top: 20px;
@@ -52,24 +62,65 @@
     input[type="submit"]:hover {
       background-color: #c0c0c0; /* Darker shade of gray on hover */
     }
+
+    /* New style for Match me container */
+    .match-me-container {
+      background-color: #9fd3c7; /* Light blue */
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    /* New style for the menu bar */
+    nav {
+      background-color: #f2f2f2; /* Light gray background */
+      padding: 10px 0; /* Adjust padding for better spacing */
+      border-radius: 10px; /* Rounded corners for the menu bar */
+      text-align: center; /* Center-align the menu items */
+    }
+    nav ul {
+      display: inline-block; /* Display menu items in a single line */
+    }
+    nav li {
+      display: inline; /* Display menu items inline */
+      margin-right: 20px; /* Add some margin between menu items */
+    }
+    nav a {
+      color: #385170;  /* Dark blue */
+      text-decoration: none; /* Remove underline from the link */
+      font-weight: bold; /* Make link text bold */
+      transition: color 0.3s ease; /* Smooth transition for link color change */
+    }
+    nav a:hover {
+      color: #0056b3; /* Darker shade of primary color on hover */
+    }
   </style>
 </head>
 <body>
 <div class="container" id="homepage">
   <div class="row text-center">
-    <h1>Student-Project Matching</h1>
+    <!-- Header wrapped in a new container -->
+    <div class="col-md-12 match-me-container">
+      <h1>Match me!</h1>
+    </div>
   </div>
-
-  {% with messages = get_flashed_messages() %}
+<nav>
+  <ul>
+    <li><a href="/">About</a></li>
+    <li><a href="https://github.com/data-structures-algorithms-group4/student-project-matching/tree/main">Visit our GitHub Repository</a></li>
+  </ul>
+</nav>
+{% with messages = get_flashed_messages() %}
   {% if messages %}
-    <div id="flash-message">
-      <h2>Problems with Uploaded Data</h2>
+    <div id="flash-message" class="red-velvet">
+      <h3>Problems with Uploaded Data</h3>
       {% for message in messages %}
         <p>{{ message }}</p>
       {% endfor %}
     </div>
   {% endif %}
 {% endwith %}
+
 
 <div class="row" id="upload">
   <div class="col-md-6 offset-md-3">
@@ -106,12 +157,14 @@
 </div>
 {% endif %}
 
-<!-- Button to return to the main page -->
-<div class="row text-center" id="return-button">
-  <a href="/" class="btn btn-sm btn-light">Return to Main Page</a> <!-- Using btn-light for a lighter button -->
-</div>
-
 </div>
 
 </body>
+
+<nav>
+    <ul>
+        <li><a href="/matches">About</a></li>
+        <li><a href="https://github.com/data-structures-algorithms-group4/student-project-matching/tree/main">Visit our GitHub Repository</a></li>
+    </ul>
+</nav>
 </html>
