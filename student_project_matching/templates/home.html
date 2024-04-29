@@ -26,55 +26,72 @@
             margin-bottom: 10px;
         }
 
-        /* Style for the header */
-        .header {
-            background-color: #9fd3c7; /* Light blue */
-            color: #343a40; /* Dark gray text color */
-            padding: 15px 20px; /* Increased padding for better readability */
-            border-radius: 10px; /* Rounded corners for the header */
-            text-align: center; /* Center-align the header text */
-        }
+/* Style for the header */
+.header {
+    background-color: #9fd3c7; /* Light blue */
+    color: #343a40; /* Dark gray text color */
+    padding: 20px; /* Increased padding for better readability */
+    border-radius: 10px; /* Rounded corners for the header */
+    text-align: center; /* Center-align the header text */
+    margin-bottom: 20px; /* Add margin to separate from the menu bar */
+    width: 100%; /* Set the width of the header */
+    margin: 0 auto; /* Center the header */
+    height: auto; /* Auto height to fit content */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
 
-        /* Style for the menu bar */
-        nav {
-            background-color: #f2f2f2; /* Light gray background */
-            padding: 10px 0; /* Adjust padding for better spacing */
-            border-radius: 10px; /* Rounded corners for the menu bar */
-            text-align: center; /* Center-align the menu items */
-        }
+/* Style for the menu bar */
+nav {
+    background-color: #f2f2f2; /* Light gray background */
+    padding: 10px 0; /* Adjust padding for better spacing */
+    border-radius: 10px; /* Rounded corners for the menu bar */
+    text-align: center; /* Center-align the menu items */
+    margin-top: -10px; /* Reduce top margin to bring closer to the header */
+    width: 100%; /* Set the width of the menu bar */
+    margin: 0 auto; /* Center the menu bar */
+    height: auto; /* Auto height to fit content */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
 
-        nav ul {
-            display: inline-block; /* Display menu items in a single line */
-        }
+nav ul {
+    display: inline-block; /* Display menu items in a single line */
+    padding: 0; /* Remove default padding */
+}
 
-        nav li {
-            display: inline; /* Display menu items inline */
-            margin-right: 20px; /* Add some margin between menu items */
-        }
+nav li {
+    display: inline; /* Display menu items inline */
+    margin-right: 20px; /* Add some margin between menu items */
+}
 
-        nav a {
-            color: #385170; /* Dark blue */
-            text-decoration: none; /* Remove underline from the link */
-            font-weight: bold; /* Make link text bold */
-            transition: color 0.3s ease; /* Smooth transition for link color change */
-        }
+nav a {
+    color: #385170; /* Dark blue */
+    text-decoration: none; /* Remove underline from the link */
+    font-weight: bold; /* Make link text bold */
+    transition: color 0.3s ease; /* Smooth transition for link color change */
+}
 
-        nav a:hover {
-            color: #0056b3; /* Darker shade of primary color on hover */
-        }
+nav a:hover {
+    color: #0056b3; /* Darker shade of primary color on hover */
+}
 
-        .github-logo {
-            width: 50px; /* Set the width of the logo */
-            vertical-align: middle; /* Align the logo vertically */
-            margin-right: 5px; /* Add some margin to the right of the logo */
-        }
-
+.github-logo {
+    width: 30px; /* Adjusted width of the logo */
+    vertical-align: middle; /* Align the logo vertically */
+    margin-left: 5px; /* Add some margin to the left of the logo */
+}
         .title-image {
-            display: block;
-            margin: 0 auto;
-            max-width: 100%; /* Ensure the image doesn't exceed its container's width */
-            margin-bottom: 20px; /* Add some space between the image and text */
+            width: 300px; /* Set the width of the title image */
+            height: auto; /* Automatically adjust the height to maintain aspect ratio */
+            margin: 20px auto; /* Center the image */
+            display: block; /* Make the image a block element for margin auto to work */
         }
+
+/* Style for the text explanation */
+p {
+    margin: 20px; /* Add margin from the edge of the website */
+    text-align: justify; /* Align text to justify */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
     </style>
 </head>
 <body>
@@ -86,21 +103,43 @@
 <nav>
     <ul>
         <li><a href="/matches">Go to Matches</a></li>
-        <li><img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"><a href="https://github.com/your-repository">Visit our GitHub</a></li>
+        <li><a href="https://github.com/data-structures-algorithms-group4/student-project-matching/tree/main">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
     </ul>
 </nav>
 
 <!-- Text explanation -->
 <p>This website helps students find suitable matches with their preferred projects based on their preferences and the project requirements.</p>
 
-
 <!-- GIF Title Image -->
 <img src="/static/DSA_Title_Matching.gif" alt="DSA Title Matching" class="title-image">
 
 <!-- Section with provided text -->
-<h2>Algorithm in Pseudocode</h2>
-<p>Abraham, David J., Robert W. Irving, and David F. Manlove. “Two Algorithms for the Student-Project Allocation Problem.” Journal of Discrete Algorithms 5, no. 1 (March 1, 2007): 73–90. <a href="https://doi.org/10.1016/j.jda.2006.03.006">https://doi.org/10.1016/j.jda.2006.03.006</a>.</p>
+<h2>Stable Matching</h2>
+<p>Given a set of n proposers (students) and recipients (projects), each with their own preferences, our goal following the Gale-Shapley algorithm was to
+    to find an assignment such that:
+    Each student ends up with exactly one project.
+
+    In this case a project may allocate more than one student, but not vice versa.
+
+    This is known as a stable matching. Its applications range from economics and networks to medical school assignments.
+    The Gale-Shapley Algorithm proposes a greedy solution to this. We process students arbitrarily and go down each
+    proposer's list of preferences for recipients. In each round, if a recipient is free, this (proposer, recipient) pair
+    becomes temporarily "engaged". If the recipient is already engaged, it will leave (and thus free) its current partner
+    only if it prefers this proposer more. This process continues until all n proposers and recipients are engaged with
+    one other person.
+
+    It is proven to produce a unique and optimal solution. It runs in quadratic time.
+
+    For more information visit <a href="https://gale-shapley.com/">gale-shapley.com</a>.</p>
 <!-- Include the pseudocode here -->
 
 </body>
+
+<!-- Navigation bar with links -->
+<nav>
+    <ul>
+        <li><a href="/matches">Go to Matches</a></li>
+        <li><a href="https://github.com/data-structures-algorithms-group4/student-project-matching/tree/main">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
+    </ul>
+</nav>
 </html>
