@@ -5,68 +5,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <title>Home</title>
-   <style>
-    body {
-      background-color: #f8f9fa; /* Light gray background */
-      font-family: 'Montserrat', sans-serif;
-      padding: 20px;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      font-family: 'Montserrat', sans-serif;
-      color: #343a40; /* Dark gray text color */
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    /* New style rule for the header */
-    h1 {
-      background-color: #dc3545; /* Red background color */
-      color: #fff; /* White text color */
-      padding: 15px 20px; /* Increased padding for better readability */
-      border-radius: 10px; /* Rounded corners for the header */
-      text-align: center; /* Center-align the header text */
-    }
-    p {
-      color: #6c757d; /* Gray text color */
-      margin-bottom: 20px; /* Increased margin for better spacing */
-    }
-    a {
-      color: #007bff; /* Bootstrap primary color for link */
-      text-decoration: none; /* Remove underline from the link */
-      font-weight: bold; /* Make link text bold */
-      transition: color 0.3s ease; /* Smooth transition for link color change */
-    }
-    a:hover {
-      color: #0056b3; /* Darker shade of primary color on hover */
-    }
-  </style>
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+            font-family: 'Montserrat', sans-serif;
+            padding: 20px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            color: #343a40; /* Dark gray text color */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        /* Style for the header */
+        .header {
+            background-color: #9fd3c7; /* Light blue */
+            color: #343a40; /* Dark gray text color */
+            padding: 15px 20px; /* Increased padding for better readability */
+            border-radius: 10px; /* Rounded corners for the header */
+            text-align: center; /* Center-align the header text */
+        }
+
+        /* Style for the menu bar */
+        nav {
+            background-color: #f2f2f2; /* Light gray background */
+            padding: 10px 0; /* Adjust padding for better spacing */
+            border-radius: 10px; /* Rounded corners for the menu bar */
+            text-align: center; /* Center-align the menu items */
+        }
+
+        nav ul {
+            display: inline-block; /* Display menu items in a single line */
+        }
+
+        nav li {
+            display: inline; /* Display menu items inline */
+            margin-right: 20px; /* Add some margin between menu items */
+        }
+
+        nav a {
+            color: #385170; /* Dark blue */
+            text-decoration: none; /* Remove underline from the link */
+            font-weight: bold; /* Make link text bold */
+            transition: color 0.3s ease; /* Smooth transition for link color change */
+        }
+
+        nav a:hover {
+            color: #0056b3; /* Darker shade of primary color on hover */
+        }
+
+        .github-logo {
+            width: 50px; /* Set the width of the logo */
+            vertical-align: middle; /* Align the logo vertically */
+            margin-right: 5px; /* Add some margin to the right of the logo */
+        }
+
+        .title-image {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%; /* Ensure the image doesn't exceed its container's width */
+            margin-bottom: 20px; /* Add some space between the image and text */
+        }
+    </style>
 </head>
 <body>
+<div class="header">
     <h1>Welcome to Student-Project Matching</h1>
-    <p>This website helps students find suitable matches with their preferred projects based on their preferences and the project requirements.</p>
-    <!-- Add a link to the matches page -->
-    <p><a href="/matches">Go to Matches</a></p>
+</div>
 
-    <!-- New section with provided text -->
-    <h2>Algorithm in Pseudocode</h2>
-    <p>Abraham, David J., Robert W. Irving, and David F. Manlove. “Two Algorithms for the Student-Project Allocation Problem.” Journal of Discrete Algorithms 5, no. 1 (March 1, 2007): 73–90. <a href="https://doi.org/10.1016/j.jda.2006.03.006">https://doi.org/10.1016/j.jda.2006.03.006</a>.</p>
-    <!-- Include the pseudocode here -->
+<!-- Navigation bar with links -->
+<nav>
+    <ul>
+        <li><a href="/matches">Go to Matches</a></li>
+        <li><img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"><a href="https://github.com/your-repository">Visit our GitHub</a></li>
+    </ul>
+</nav>
 
-    <!-- Suggestions for algorithm enhancement -->
-    <h3>ChatGPT (selected) suggestions for algorithm enhancement:</h3>
-    <ol>
-      <li>Incorporating Lecturer Preferences</li>
-      <li>Handling Ties in Preferences</li>
-      <li>Optimizing for Global Happiness</li>
-      <li>Dynamic Capacity Management</li>
-      <li>Fairness and Diversity Considerations</li>
-      <li>Iterative Feedback and Re-Matching</li>
-      <li>Algorithm Efficiency</li>
-      <li>Post-Matching Analysis Tools</li>
-    </ol>
+<!-- Text explanation -->
+<p>This website helps students find suitable matches with their preferred projects based on their preferences and the project requirements.</p>
+
+
+<!-- GIF Title Image -->
+<img src="/static/DSA_Title_Matching.gif" alt="DSA Title Matching" class="title-image">
+
+<!-- Section with provided text -->
+<h2>Algorithm in Pseudocode</h2>
+<p>Abraham, David J., Robert W. Irving, and David F. Manlove. “Two Algorithms for the Student-Project Allocation Problem.” Journal of Discrete Algorithms 5, no. 1 (March 1, 2007): 73–90. <a href="https://doi.org/10.1016/j.jda.2006.03.006">https://doi.org/10.1016/j.jda.2006.03.006</a>.</p>
+<!-- Include the pseudocode here -->
+
 </body>
 </html>
