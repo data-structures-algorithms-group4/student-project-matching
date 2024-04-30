@@ -67,6 +67,8 @@ def reevaluate_assignments(project, project_prefs, project_assignments, project_
 
 def matching_algorithm(students_df, projects_df):
     students, projects, student_prefs, project_prefs, project_capacity, project_availability = preprocess_preferences(students_df, projects_df)
+    logging.debug(f'student_prefs: {student_prefs}')
+    logging.debug(f'project_prefs: {project_prefs}')
 
     matches = {}
     project_assignments = defaultdict(list)
@@ -75,10 +77,12 @@ def matching_algorithm(students_df, projects_df):
 
     while unassigned_students:
         student = unassigned_students.popleft()
+        logging.info(f'Process student {student}')
         processed = False  # Flag to indicate if the student has been processed in this iteration
 
         while student_prefs[student] and not processed:
             project, _ = student_prefs[student].popleft()
+            logging.info(f'Check project {project} with availability {project_availability[project]}')
             if student in project_prefs[project] and project_availability[project] > 0:
                 assign_student_to_project(student, project, matches, project_assignments, project_availability)
                 processed = True
@@ -100,4 +104,5 @@ def matching_algorithm(students_df, projects_df):
 
         logging.info(f'Updated project assignments: {project_assignments}')
         logging.debug(f'Updated unassigned students: {unassigned_students}')
+        logging.info('')
     return matches
