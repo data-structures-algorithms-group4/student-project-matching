@@ -86,7 +86,7 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/matching", methods=["GET", "POST"])
+@app.route("/matches", methods=["GET", "POST"])
 def matching():
     if request.method == "POST":
         # check if the post request has the file part
