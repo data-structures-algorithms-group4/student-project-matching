@@ -35,7 +35,7 @@
       padding: 20px; /* Increased padding for better readability */
       border-radius: 10px; /* Rounded corners for the header */
       text-align: center; /* Center-align the header text */
-      margin-bottom: 20px; /* Add margin to separate from the menu bar */
+      margin-bottom: 10px; /* Add margin to separate from the menu bar */
       width: 100%; /* Set the width of the header */
       margin: 0 auto; /* Center the header */
       height: auto; /* Auto height to fit content */
@@ -44,7 +44,7 @@
 
     /* Style for form */
     form {
-      margin-top: 20px;
+      margin-top: 10px;
       padding: 20px;
       border: 1px solid #dee2e6; /* Light border */
       border-radius: 10px;
@@ -88,18 +88,31 @@
       color: #fff; /* White text color */
     }
 
-    /* Style for the menu bar */
-    nav {
-      background-color: #3f3ab1; /* Background color same as body */
-      padding: 10px 0; /* Adjust padding for better spacing */
-      border-radius: 10px; /* Rounded corners for the menu bar */
-      text-align: center; /* Center-align the menu items */
-      margin-top: -10px; /* Reduce top margin to bring closer to the header */
-      width: 100%; /* Set the width of the menu bar */
-      margin: 0 auto; /* Center the menu bar */
-      height: auto; /* Auto height to fit content */
-      line-height: 1.5; /* Adjust line height for better readability */
-    }
+/* Style for the first menu bar */
+nav:first-of-type {
+    background-color: #1A1E9B ; /* Background color same as body */
+    padding: 10px 0; /* Adjust padding for better spacing */
+    border-radius: 10px; /* Rounded corners for the menu bar */
+    text-align: center; /* Center-align the menu items */
+    margin-top: -10px; /* Reduce top margin to bring closer to the header */
+    width: 100%; /* Set the width of the menu bar */
+    margin: 0 auto; /* Center the menu bar */
+    height: auto; /* Auto height to fit content */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
+
+/* Style for the second menu bar */
+nav:last-of-type {
+    background-color: #1A1E9B ; /* Background color same as body */
+    padding: 10px 0; /* Adjust padding for better spacing */
+    border-radius: 10px; /* Rounded corners for the menu bar */
+    text-align: center; /* Center-align the menu items */
+    margin-top: -10px; /* Reduce top margin to bring closer to the header */
+    width: 100%; /* Set the width of the menu bar */
+    margin: 0 auto; /* Center the menu bar */
+    height: auto; /* Auto height to fit content */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
 
     nav ul {
       display: inline-block; /* Display menu items in a single line */
@@ -147,7 +160,7 @@
 <nav>
   <ul>
     <li><a href="/">About</a></li>
-    <li><a href="https://github.com/data-structures-algorithms-group4/student-project-matching">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
+    <li><a href="https://github.com/data-structures-algorithms-group4">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
   </ul>
 </nav>
 {% with messages = get_flashed_messages() %}
@@ -213,8 +226,8 @@
 
 <nav>
     <ul>
-        <li><a href="/matches">About</a></li>
-        <li><a href="https://github.com/data-structures-algorithms-group4/student-project-matching>Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
+        <li><a href="/">About</a></li>
+       <li><a href="https://github.com/data-structures-algorithms-group4">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
     </ul>
 </nav>
 </html>
