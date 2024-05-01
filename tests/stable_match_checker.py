@@ -128,6 +128,7 @@ def stable_match_checker(students_df, projects_df, matches) -> (bool, str):
                 error_msg = f'PREFERRED PROJECT AVAILABILITY for {s_matched} in {p_check}'
                 logging.error(f'\t\t\t-> {error_msg}')
                 return False, error_msg
+        logging.info('')
 
     ####################
     # Project Capacity #
