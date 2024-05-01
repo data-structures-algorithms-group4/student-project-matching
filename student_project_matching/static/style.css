@@ -1,17 +1,66 @@
+/* Resets for basic HTML elements */
+body, .table, th, td, tr {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* Body and table container styling */
 body {
-    background-color: #fff2e6;
+    background-color: #333; /* Darker background for contrast */
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
 }
 
-.table {
-    --bs-table-bg: #fff2e6;
+/* General table styles for higher specificity */
+html body .table {
+    width: 100%;
+    background-color: #000 !important; /* Black background */
+    color: #fff !important; /* White text */
 }
 
-th {
+/* Header styles with higher specificity */
+html body .table th {
+    background-color: #222 !important;
+    color: #fff !important;
     text-align: center;
+    padding: 15px;
 }
 
-#flash-message {
+/* Cell styles with higher specificity */
+html body .table td {
     text-align: center;
-    font-size: large;
-    color: #ff1100;
+    padding: 15px;
+    border-top: 1px solid #444;
+    background-color: #000 !important; /* Ensuring cell background remains black */
+}
+
+/* Hover effect for rows with higher specificity */
+html body .table tbody tr:hover {
+    background-color: #555 !important; /* Medium gray for hover */
+    cursor: pointer;
+}
+
+/* Force DataTables controls to adhere to the style guide */
+html body .dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: #fff !important; /* Force white text */
+    background-color: #666 !important; /* Dark background */
+    border: 1px solid #444 !important; /* Consistent border */
+}
+
+html body .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #777 !important; /* Lighter gray for hover */
+    border: 1px solid #333;
+}
+
+/* Additional styling for responsiveness and DataTables features */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto; /* Scrollable table on small devices */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+    }
 }
