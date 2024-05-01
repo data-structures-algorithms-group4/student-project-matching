@@ -65,7 +65,7 @@ def generate_random_students_projects(num_students=201, num_projects=201, num_ch
     if write_csv:
         with open('project_assignments.csv', 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerow(['project_name', 'max_students'] + ['{}st_choice'.format(i+1) for i in range(max_students_range)])
+            writer.writerow(['project_names', 'max_students'] + ['{}st_choice'.format(i+1) for i in range(max_students_range)])
             for project, details in project_data.items():
                 # Separate assigned students into multiple columns for each choice
                 assigned_students = details['assigned_students']
@@ -84,7 +84,7 @@ def generate_random_students_projects(num_students=201, num_projects=201, num_ch
 
     # Extract column names
     student_columns = ['student_names'] + ['{}st_choice'.format(i + 1) for i in range(num_choices)]
-    project_columns = ['project_name', 'max_students'] + ['{}st_choice'.format(i + 1) for i in range(max_students_range)]
+    project_columns = ['project_names', 'max_students'] + ['{}st_choice'.format(i + 1) for i in range(max_students_range)]
 
     # Return the generated data and extracted column names
     return student_preferences, project_data, student_columns, project_columns
