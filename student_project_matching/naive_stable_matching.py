@@ -42,14 +42,14 @@ def naive_stable_matching(students_df, projects_df):
     stable = False
     matches = {}
     attempts = 0
-    while not stable and attempts < 10000:  # Limit attempts to prevent infinite loops
+    while not stable and attempts < 1000000:  # Limit attempts to prevent infinite loops
         matches = generate_random_match()
         stable, message = stable_match_checker(students_df, projects_df, matches)
         attempts += 1
         logging.info(f'Attempt {attempts}: {message}')
     
     if not stable:
-        logging.warning("Failed to find a stable match within 1000 attempts.")
+        logging.warning("Failed to find a stable match within 1000000 attempts.")
     else:
         logging.info("Stable match found.")
     
