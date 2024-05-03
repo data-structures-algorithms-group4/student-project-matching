@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 from test_data.random.test_data_random import generate_random_students_projects
 from tests.testing_environment import validate_inputs, config_logging
 from student_project_matching import matching_algorithm, suboptimal_algorithm
+from student_project_matching.naive_stable_matching import naive_stable_matching
 from tests.stable_match_checker import stable_match_checker
 
 ################################################
@@ -51,7 +52,6 @@ def compare_algorithm_times(input_size_n, algorithms):
     for algorithm in algorithms:
 
         # Run algorithm and check run-time
-        #config_logging('evaluate_efficiency.log', 'DEBUG') # DO NOT RUN FOR TIMES!
         algo_t0 = time.time()
         matches = algorithm(students_df, projects_df) # RUN THIS ALGORITHM!!
         algo_t1 = time.time()
@@ -67,25 +67,37 @@ def compare_algorithm_times(input_size_n, algorithms):
 # Main run code #
 #################
 
+# Logging config
+# 'CRITICAL' - no outputs
+# 'ERROR' - errors only
+# 'INFO', 'DEBUG'
+log_level = 'CRITICAL'
+config_logging('evaluate_efficiency.log', log_level)
+
 # Loop setup values
-input_sizes = np.logspace(0, 4, 25).astype(int)[0:21] #[1, ..., 10, ..., 100, ..., 1000, ..., 10000]
-algorithm_list = [matching_algorithm.matching_algorithm]
-#algorithm_list = [matching_algorithm.matching_algorithm, suboptimal_algorithm.matching_algorithm]
+input_sizes = np.logspace(0, 4, 25).astype(int)[0:6] #[1, ..., 10, ..., 100, ..., 1000, ..., 10000]
+algorithm_list = [matching_algorithm.matching_algorithm, naive_stable_matching]
+#algorithm_list = [matching_algorithm.matching_algorithm, suboptimal_algorithm.matching_algorithm, naive_stable_matching]
 
 # Data structure to save times
 algo_times_dict = dict()
 
+# Actual algorithm comparison loop
 for input_size_n in input_sizes:
     algo_times = compare_algorithm_times(input_size_n, algorithm_list)
     algo_times_dict[input_size_n] = algo_times
-    print(f'Input {input_size_n}, times {algo_times}')
+    print(f'Input size {input_size_n}, algorithm times {algo_times}')
 
-#TO-DO: handle for list of 2+ algorithm times
+# Handle for list of 2+ algorithm times
 algo_times_df = pd.DataFrame(algo_times_dict).T.reset_index()
-algo_times_df.columns = ['Input size n', 'Run-time (seconds)']
+algo_times_df.columns = ['input_size_n', 'time1_seconds', 'time2_seconds']
+#print(algo_times_df)
 
 # Visualize n vs. t
-sns.lineplot(data=algo_times_df, x='Input size n', y='Run-time (seconds)', marker='o')
+sns.lineplot(data=algo_times_df, x='input_size_n', y='time1_seconds', marker='o', label='Efficient algorithm')
+sns.lineplot(data=algo_times_df, x='input_size_n', y='time2_seconds', marker='o', label='Random search algorithm')
 plt.title('Time efficiency of student-project matching algorithms')
+plt.xlabel('Input size (number of students/projects)')
+plt.ylabel('Run time (seconds)')
 #plt.show()
 plt.savefig('evaluate_efficiency.png')
