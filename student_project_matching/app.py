@@ -19,14 +19,34 @@ from student_project_matching.input_validation import (
 )
 import io
 import logging
+from flask_sqlalchemy import SQLAlchemy
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 # TODO find a better solution than manually going up one directory with "../"
 UPLOAD_FOLDER = "../student_project_matching/uploads"
 ALLOWED_EXTENSIONS = {"txt", "xlsx", "csv"}
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+db = SQLAlchemy(app)
+
+with app.app_context():
+    db.create_all()
+    print("DB created?")
+
 app.config["SECRET_KEY"] = "NOT-A-SECRET-ONLY-USE-FOR-LOCAL-TESTING"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+
+from student_project_matching.models import University, Project, Student, Preference
+admin = Admin(app, name='MyAdmin', template_mode='bootstrap3')
+
+admin.add_view(ModelView(University, db.session))
+admin.add_view(ModelView(Project, db.session))
+admin.add_view(ModelView(Student, db.session))
+admin.add_view(ModelView(Preference, db.session))
 
 
 def file_type(filename):
