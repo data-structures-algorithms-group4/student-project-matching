@@ -18,6 +18,7 @@ from student_project_matching.input_validation import (
     validate_students_projects
 )
 import io
+import logging
 
 # TODO find a better solution than manually going up one directory with "../"
 UPLOAD_FOLDER = "../student_project_matching/uploads"
@@ -40,11 +41,10 @@ def txt_to_df(txt_file):
     txt_file.seek(0)
     file_contents = txt_file.read().decode("utf-8")
     file_contents = file_contents.splitlines()
-    print(f'before: {file_contents}\n')
+    logging.debug(f'before: {file_contents}\n')
     # turn into a nested list and drop empty rows
     file_contents = [line.strip().split(" ") for line in file_contents if line.strip()]
-    print(f'after: {file_contents}\n')
-    print()
+    logging.debug(f'after: {file_contents}\n')
     df = pd.DataFrame(file_contents)
     return df
 
@@ -86,7 +86,7 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/matching", methods=["GET", "POST"])
+@app.route("/matches", methods=["GET", "POST"])
 def matching():
     if request.method == "POST":
         # check if the post request has the file part

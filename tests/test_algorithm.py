@@ -126,7 +126,7 @@ def test_no_matches(students_filename = 's_no_matches.xlsx', projects_filename =
 def test_p_non_full(students_filename = 'td_1_students.xlsx', projects_filename = 'p_td_1_non_full.xlsx'):
     ''' Projects remain with space after all students matched. Expect: PASS'''
     config_logging('test_p_non_full.log')
-    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=True)
     assert result, message
 
 #@pytest.mark.skip()
@@ -140,49 +140,50 @@ def test_s_unmatched(students_filename = 'td_1_students.xlsx', projects_filename
 def test_s_1_blank(students_filename = '1_blank_students.xlsx', projects_filename = 'td_1_projects.xlsx'):
     ''' One student has one less project preference than other students. Expect: PASS'''
     config_logging('test_s_1_blank.log', 'DEBUG')
-    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    config_logging('test_s_1_blank.log', 'DEBUG')
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=True)
     assert result, message
 
 #@pytest.mark.skip()
 def test_p_1_blank(students_filename = 'td_1_students.xlsx', projects_filename = '1_blank_projects.xlsx'):
     ''' One project has one less student preference than other projects. Expect: PASS'''
     config_logging('test_p_1_blank.log', 'DEBUG')
-    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=True)
     assert result, message
 
 #@pytest.mark.skip()
 def test_s_vary_p_pref_size(students_filename = 's_varying_preferences_to_projects.xlsx', projects_filename = 'p_varying_preferences_to_projects.xlsx'):
     ''' Vary size of student preference list of projects. Expect: PASS'''
     config_logging('test_s_vary_p_pref_size.log', 'DEBUG')
-    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=True)
     assert result, message
 
 #@pytest.mark.skip()
 def test_p_vary_s_pref_size(students_filename = 's2_varying_preferences_to_projects.xlsx', projects_filename = 'p2_varying_preferences_to_projects.xlsx'):
     ''' Vary size of project preference list of students. Expect: PASS'''
     config_logging('test_p_vary_s_pref_size.log', 'DEBUG')
-    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=True)
     assert result, message
 
 #@pytest.mark.skip()
 def test_both_vary_pref_sizes(students_filename = 's_varying_preferences_to_projects.xlsx', projects_filename = 'p2_varying_preferences_to_projects.xlsx'):
     ''' Vary size of both student and project preference lists. Expect: PASS'''
     config_logging('test_both_vary_pref_sizes.log', 'DEBUG')
-    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=True)
     assert result, message
 
 #@pytest.mark.skip()
 def test_s_no_prefs(students_filename = 's_td_1_no_prefs.xlsx', projects_filename = 'td_1_projects.xlsx'):
     ''' Check when a student has an empty project preference list. Expect: PASS'''
     config_logging('test_s_no_prefs.log', 'DEBUG')
-    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=True)
     assert result, message
 
 #@pytest.mark.skip()
 def test_p_no_prefs(students_filename = 'td_1_students.xlsx', projects_filename = 'p_td_1_no_prefs.xlsx'):
     ''' Check when a project has an empty student preference list. Expect: PASS'''
     config_logging('test_p_no_prefs.log', 'DEBUG')
-    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=True)
     assert result, message
 
 ############
@@ -218,13 +219,13 @@ def test_p_reduced_max(students_filename = 'td_1_students.xlsx', projects_filena
 def test_random_data_n200(students_filename = 'random_student_preferences.csv', projects_filename = 'random_project_assignments.csv'):
     ''' Large size (n=200) random data from test_data_random.ipynb. Expect: PASS'''
     config_logging('test_random_data_n200.log')
-    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=True)
     assert result, message
 
 #@pytest.mark.skip()
 def test_mds_people(students_filename = 'MDS_students_test.xlsx', projects_filename = 'MDS_projects_test.xlsx'):
     ''' MDS students and fascinating projects for in-class demo. Expect: PASS'''
     config_logging('test_mds_people.log')
-    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=False)
+    result, message = run_and_check_test_data(students_filename, projects_filename, run_input_val=True)
     assert result, message
 

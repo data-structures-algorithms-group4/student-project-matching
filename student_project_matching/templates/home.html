@@ -4,69 +4,155 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Home</title>
-   <style>
-    body {
-      background-color: #f8f9fa; /* Light gray background */
-      font-family: 'Montserrat', sans-serif;
-      padding: 20px;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      font-family: 'Montserrat', sans-serif;
-      color: #343a40; /* Dark gray text color */
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    li {
-      margin-bottom: 10px;
-    }
-    /* New style rule for the header */
-    h1 {
-      background-color: #dc3545; /* Red background color */
-      color: #fff; /* White text color */
-      padding: 15px 20px; /* Increased padding for better readability */
-      border-radius: 10px; /* Rounded corners for the header */
-      text-align: center; /* Center-align the header text */
-    }
-    p {
-      color: #6c757d; /* Gray text color */
-      margin-bottom: 20px; /* Increased margin for better spacing */
-    }
-    a {
-      color: #007bff; /* Bootstrap primary color for link */
-      text-decoration: none; /* Remove underline from the link */
-      font-weight: bold; /* Make link text bold */
-      transition: color 0.3s ease; /* Smooth transition for link color change */
-    }
-    a:hover {
-      color: #0056b3; /* Darker shade of primary color on hover */
-    }
-  </style>
+    <style>
+        body {
+            background-color: #3f3ab1; /* Updated background color */
+            font-family: 'Montserrat', sans-serif;
+            color: #fff; /* White text color */
+            padding: 20px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            color: #fff; /* White text color */
+            font-weight: bold; /* Bold font weight for titles */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        /* Style for the header */
+        .header {
+            background-color: #3f3ab1; /* Background color same as body */
+            color: #fff; /* White text color */
+            padding: 20px; /* Increased padding for better readability */
+            border-radius: 10px; /* Rounded corners for the header */
+            text-align: center; /* Center-align the header text */
+            margin-bottom: 20px; /* Add margin to separate from the menu bar */
+            width: 100%; /* Set the width of the header */
+            margin: 0 auto; /* Center the header */
+            height: auto; /* Auto height to fit content */
+            line-height: 1.5; /* Adjust line height for better readability */
+        }
+
+        /* Style for the menu bar */
+        nav {
+            background-color: #1A1E9B ; /* Background color same as body */
+            padding: 10px 0; /* Adjust padding for better spacing */
+            border-radius: 10px; /* Rounded corners for the menu bar */
+            text-align: center; /* Center-align the menu items */
+            margin-top: -10px; /* Reduce top margin to bring closer to the header */
+            width: 100%; /* Set the width of the menu bar */
+            margin: 0 auto; /* Center the menu bar */
+            height: auto; /* Auto height to fit content */
+            line-height: 1.5; /* Adjust line height for better readability */
+        }
+
+        nav ul {
+            display: inline-block; /* Display menu items in a single line */
+            padding: 0; /* Remove default padding */
+        }
+
+        nav li {
+            display: inline; /* Display menu items inline */
+            margin-right: 20px; /* Add some margin between menu items */
+        }
+
+        nav a {
+            color: #fff; /* White text color */
+            text-decoration: none; /* Remove underline from the link */
+            font-weight: bold; /* Make link text bold */
+            transition: color 0.3s ease; /* Smooth transition for link color change */
+        }
+
+        nav a:hover {
+            color: #c4c4c4; /* Lighter shade of text color on hover */
+        }
+
+        .github-logo {
+            width: 30px; /* Adjusted width of the logo */
+            vertical-align: middle; /* Align the logo vertically */
+            margin-left: 5px; /* Add some margin to the left of the logo */
+        }
+
+        .title-image {
+            width: 75%; /* Set the width of the title image */
+            height: auto; /* Automatically adjust the height to maintain aspect ratio */
+            margin: 20px auto; /* Center the image */
+            display: block; /* Make the image a block element for margin auto to work */
+            border-radius: 10px; /* Rounded corners for the image */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow effect */
+        }
+
+        /* Style for the text explanation */
+        p {
+            margin: 20px; /* Add margin from the edge of the website */
+            text-align: justify; /* Align text to justify */
+            line-height: 1.5; /* Adjust line height for better readability */
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Student-Project Matching</h1>
-    <p>This website helps students find suitable matches with their preferred projects based on their preferences and the project requirements.</p>
-    <!-- Add a link to the matches page -->
-    <p><a href="/matching">Go to Matches</a></p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="header">
+                <h1>Match me a project</h1>
+            </div>
+            <p class="lead">This website helps students find suitable matches with their preferred projects based on their preferences and the project requirements.</p>
+        </div>
+    </div>
+</div>
 
-    <!-- New section with provided text -->
-    <h2>Algorithm in Pseudocode</h2>
-    <p>Abraham, David J., Robert W. Irving, and David F. Manlove. “Two Algorithms for the Student-Project Allocation Problem.” Journal of Discrete Algorithms 5, no. 1 (March 1, 2007): 73–90. <a href="https://doi.org/10.1016/j.jda.2006.03.006">https://doi.org/10.1016/j.jda.2006.03.006</a>.</p>
-    <!-- Include the pseudocode here -->
+<!-- Navigation bar with links -->
+<nav>
+    <ul>
+        <li><a href="/matches">Go to Matches</a></li>
+        <li><a href="https://github.com/data-structures-algorithms-group4">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
+    </ul>
+</nav>
 
-    <!-- Suggestions for algorithm enhancement -->
-    <h3>ChatGPT (selected) suggestions for algorithm enhancement:</h3>
-    <ol>
-      <li>Incorporating Lecturer Preferences</li>
-      <li>Handling Ties in Preferences</li>
-      <li>Optimizing for Global Happiness</li>
-      <li>Dynamic Capacity Management</li>
-      <li>Fairness and Diversity Considerations</li>
-      <li>Iterative Feedback and Re-Matching</li>
-      <li>Algorithm Efficiency</li>
-      <li>Post-Matching Analysis Tools</li>
-    </ol>
+<!-- GIF Title Image -->
+<img src="/static/DSA_Title_Matching.gif" alt="DSA Title Matching" class="title-image">
+
+<!-- Section with provided text -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="mt-5">Stable Matching</h2>
+            <p>Given a set of n proposers (students) and recipients (projects), each with their own preferences, our goal following the Gale-Shapley algorithm was to
+                to find an assignment such that:
+                Each student ends up with exactly one project.
+
+                In this case a project may allocate more than one student, but not vice versa.
+
+                This is known as a stable matching. Its applications range from economics and networks to medical school assignments.
+                The Gale-Shapley Algorithm proposes a greedy solution to this. We process students arbitrarily and go down each
+                proposer's list of preferences for recipients. In each round, if a recipient is free, this (proposer, recipient) pair
+                becomes temporarily "engaged". If the recipient is already engaged, it will leave (and thus free) its current partner
+                only if it prefers this proposer more. This process continues until all n proposers and recipients are engaged with
+                one other person.
+
+                It is proven to produce a unique and optimal solution. It runs in quadratic time.
+
+                For more information visit <a href="https://gale-shapley.com/">gale-shapley.com</a>.
+            </p>
+        </div>
+    </div>
+</div>
 </body>
+<nav>
+  <ul>
+    <li><a href="/">About</a></li>
+    <li><a href="https://github.com/data-structures-algorithms-group4">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
+  </ul>
+</nav>
 </html>

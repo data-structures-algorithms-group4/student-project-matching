@@ -38,7 +38,8 @@ def reevaluate_assignments(project, project_prefs, project_assignments, project_
 
     for student in displaced_students:
         matches.pop(student, None)
-        project_assignments[project].remove(student)
+        if student in project_assignments[project]:
+            project_assignments[project].remove(student)
 
     return displaced_students
 
@@ -56,21 +57,23 @@ def matching_algorithm(students_df, projects_df):
             assigned = False
             if student not in matches:
                 for project, _ in student_prefs[student]:
-                    if project_availability[project] > 0:
-                        assign_student_to_project(student, project, matches, project_assignments, project_availability)
-                        assigned = True
-                        break
-                    else:
-                        displaced = reevaluate_assignments(project, project_prefs, project_assignments,
-                                                           project_availability, matches)
-                        next_round_students.extend(displaced)
-                        if student not in matches:
-                            next_round_students.append(student)
-                        assigned = True
-                        break
+                    # Added check to verify if student is in the project's preferences list
+                    if project in project_prefs and any(stud == student for stud, _ in project_prefs[project]):
+                        if project_availability[project] > 0:
+                            assign_student_to_project(student, project, matches, project_assignments, project_availability)
+                            assigned = True
+                            break
+                        else:
+                            displaced = reevaluate_assignments(project, project_prefs, project_assignments,
+                                                               project_availability, matches)
+                            next_round_students.extend(displaced)
+                            if student not in matches:
+                                next_round_students.append(student)
+                            assigned = True
+                            break
             if not assigned:
                 next_round_students.append(student)
-        unassigned_students = list(set(next_round_students))  # Remove duplicates to avoid infinite loops
+        unassigned_students = list(set(next_round_students))
 
     return matches
 
