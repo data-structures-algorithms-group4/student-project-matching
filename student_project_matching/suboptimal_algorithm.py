@@ -44,7 +44,7 @@ def reevaluate_assignments(project, project_prefs, project_assignments, project_
     return displaced_students
 
 
-def matching_algorithm(students_df, projects_df):
+def suboptimal_algorithm(students_df, projects_df):
     students, projects, student_prefs, project_prefs, project_capacity, project_availability = preprocess_preferences(
         students_df, projects_df)
     matches = {}
