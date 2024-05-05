@@ -1,43 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <!-- DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-<link rel="stylesheet" type="text/css" href="static/style.css"> 
+<link rel="stylesheet" type="text/css" href="static/style.css">
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 <script src="matches.js"></script>
 
-    <!-- Scripts for jQuery, DataTables, and Plotly -->
-    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<style>
+  /* Hover effect for rows in the table body */
+  .table tbody tr:hover {
+      background-color: #f0f0f0; /* Light grey background for hover */
+      cursor: pointer; /* Change cursor to indicate interactivity */
+  }
+  /* Optional: Hover effect for headers if desired */
+  .table thead tr:hover {
+      background-color: #ddd; /* Slightly darker shade for header on hover */
+      cursor: default; /* Keep the default cursor for headers */
+  }
+  </style>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student-Project Matching</title>
-    <style>
-        html {
-            font-family: 'Montserrat', sans-serif; /* Set font family to Montserrat for the whole document */
-        }
 
-        body {
-            background-color: #3f3ab1;
-            padding: 20px;
-            color: #fff;
-        }
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-  <link rel="stylesheet" type="text/css" href="static/style.css"> 
+  <link rel="stylesheet" type="text/css" href="static/style.css">
   <title>Student-Project Matching</title>
 
   <script>
     $(document).ready( function () {
-        $('.table').DataTable();  
+        $('.table').DataTable();
     });
   </script>
 
@@ -68,137 +63,134 @@
       padding: 20px;
       color: #fff; /* White text color */
     }
-        .header-container {
-            background-color: #252850;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
 
-        /* Style for the menu bar */
-        nav {
-            background-color: #1A1E9B ; /* Background color same as body */
-            padding: 10px 0; /* Adjust padding for better spacing */
-            border-radius: 10px; /* Rounded corners for the menu bar */
-            text-align: center; /* Center-align the menu items */
-            margin-top: -10px; /* Reduce top margin to bring closer to the header */
-            width: 100%; /* Set the width of the menu bar */
-            margin: 0 auto; /* Center the menu bar */
-            height: auto; /* Auto height to fit content */
-            line-height: 1.5; /* Adjust line height for better readability */
-        }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+    }
 
-        nav ul {
-            display: inline-block; /* Display menu items in a single line */
-            padding: 0; /* Remove default padding */
-        }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
 
-        nav li {
-            display: inline; /* Display menu items inline */
-            margin-right: 20px; /* Add some margin between menu items */
-        }
+    li {
+      margin-bottom: 10px;
+    }
 
-        nav a {
-            color: #fff; /* White text color */
-            text-decoration: none; /* Remove underline from the link */
-            font-weight: bold; /* Make link text bold */
-            transition: color 0.3s ease; /* Smooth transition for link color change */
-        }
+    /* Style for the header */
+    .header {
+      background-color: #3f3ab1; /* Background color same as body */
+      color: #fff; /* White text color */
+      padding: 20px; /* Increased padding for better readability */
+      border-radius: 10px; /* Rounded corners for the header */
+      text-align: center; /* Center-align the header text */
+      margin-bottom: 10px; /* Add margin to separate from the menu bar */
+      width: 100%; /* Set the width of the header */
+      margin: 0 auto; /* Center the header */
+      height: auto; /* Auto height to fit content */
+      line-height: 1.5; /* Adjust line height for better readability */
+    }
 
-        nav a:hover {
-            color: #c4c4c4; /* Lighter shade of text color on hover */
-        }
+    /* Style for form */
+    form {
+      margin-top: 10px;
+      padding: 20px;
+      border: 1px solid #dee2e6; /* Light border */
+      border-radius: 10px;
+      background-color: #3f3ab1; /* Background color same as body */
+      color: #fff; /* White text color */
+    }
 
-        .github-logo {
-            width: 30px; /* Adjusted width of the logo */
-            vertical-align: middle; /* Align the logo vertically */
-            margin-left: 5px; /* Add some margin to the left of the logo */
-        }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #fff; /* White text color */
+    }
 
-        .title-image {
-            width: 75%; /* Set the width of the title image */
-            height: auto; /* Automatically adjust the height to maintain aspect ratio */
-            margin: 20px auto; /* Center the image */
-            display: block; /* Make the image a block element for margin auto to work */
-            border-radius: 10px; /* Rounded corners for the image */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow effect */
-        }
+    input[type="file"] {
+      margin-bottom: 15px;
+    }
 
-        .btn-primary {
-            background-color: #4E5D94;
-            border: none;
-            padding: 10px 20px;
-            margin-top: 10px;
-        }
+    input[type="submit"] {
+      background-color: #3f3ab1; /* Background color same as body */
+      color: #fff; /* White text color */
+      border: none;
+      border-radius: 5px;
+      padding: 8px 16px; /* Adjust padding to make the button smaller */
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
 
-        .btn-primary:hover {
-            background-color: #3f4b77;
-        }
+    input[type="submit"]:hover {
+      background-color: #2c288e; /* Darker shade of background color on hover */
+    }
 
-        .results-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
+    /* New style for Match me container */
+    .match-me-container {
+      background-color: #3f3ab1; /* Background color same as body */
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      height: auto; /* Auto height to fit content */
+      line-height: 1.5; /* Adjust line height for better readability */
+      color: #fff; /* White text color */
+    }
 
-        .dashboard {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
 
-        #match_chart {
-            width: auto;
-            max-width: 100%;
-        }
+/* Style for the first menu bar */
+nav:first-of-type {
+    background-color: #1A1E9B ; /* Background color same as body */
+    padding: 5px; /* Adjust padding for better spacing */
+    border-radius: 10px; /* Rounded corners for the menu bar */
+    text-align: center; /* Center-align the menu items */
+    margin-top: -10px; /* Reduce top margin to bring closer to the header */
+    width: 100%; /* Set the width of the menu bar */
+    margin: 0 auto; /* Center the menu bar */
+    height: auto; /* Auto height to fit content */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
 
-        .chart-container {
-            width: 80%; /* Adjust the width as needed */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
+/* Style for the second menu bar */
+nav:last-of-type {
+    background-color: #1A1E9B ; /* Background color same as body */
+    padding: 10px 0; /* Adjust padding for better spacing */
+    border-radius: 10px; /* Rounded corners for the menu bar */
+    text-align: center; /* Center-align the menu items */
+    margin-top: -10px; /* Reduce top margin to bring closer to the header */
+    width: 100%; /* Set the width of the menu bar */
+    margin: 0 auto; /* Center the menu bar */
+    height: auto; /* Auto height to fit content */
+    line-height: 1.5; /* Adjust line height for better readability */
+}
 
-        #match_chart {
-            width: 100%;
-        }
+    nav ul {
+      display: inline-block; /* Display menu items in a single line */
+    }
 
-        .data-tables {
-            width: 80%;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
+    nav li {
+      display: inline; /* Display menu items inline */
+      margin-right: 20px; /* Add some margin between menu items */
+    }
 
-        #students-table, #projects-table {
-            flex: 1;
-            padding: 20px;
-            background-color: #3f3ab1;
-            border-radius: 10px;
-            color: #fff;
-        }
+    nav a {
+      color: #fff; /* White text color */
+      text-decoration: none; /* Remove underline from the link */
+      font-weight: bold; /* Make link text bold */
+      transition: color 0.3s ease; /* Smooth transition for link color change */
+    }
 
-        /* Table header styles */
-        .data-tables th {
-            text-align: center;
-            padding: 15px;
-            background-color: #222 !important;
-            color: #fff !important;
-        }
+    nav a:hover {
+      color: #c0c0c0; /* Lighter shade of text color on hover */
+    }
 
-        /* Table cell styles */
-        .data-tables td {
-            text-align: center;
-            padding: 15px;
-            border-top: 1px solid #444;
-            background-color: #000 !important;
-            color: #fff;
-        }
-    </style>
-</head>
+    .github-logo {
+      width: 30px; /* Adjusted width of the logo */
+      vertical-align: middle; /* Align the logo vertically */
+      margin-left: 5px; /* Add some margin to the left of the logo */
+    }
+
     /* Style for the text explanation */
     p {
       margin: 20px; /* Add margin from the edge of the website */
@@ -208,84 +200,35 @@
 
   </style>
 </head>
+
 <body>
-    <div class="container" id="homepage">
+  <div class="container" id="homepage">
     <div class="row text-center">
       <!-- Header wrapped in a new container -->
       <div class="col-md-12 match-me-container">
         <!-- Replace the text with an image -->
         <img src="static/DSA_Title_Match-me.png"  alt="Match me!" class="header-image" width="500" height="300">
       </div>
-
-        <!-- Navigation bar with links -->
-        <nav>
-         <ul>
-             <li><a href="/">About</a></li>
-             <li><a href="https://github.com/data-structures-algorithms-group4">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
-             <li><a href="/team">The team</a></li>
-         </ul>
-   </nav>
-          {% with messages = get_flashed_messages() %}
-          {% if messages %}
-       <div id="flash-message" class="red-velvet">
-                <h3>Problems with Uploaded Data</h3>
-           {% for message in messages %}
-               <p>{{ message }}</p>
-             {% endfor %}
-        </div>
-                {% endif %}
-             {% endwith %}
-
-<div class="container">
-  <div class="row">
-    <!-- Form column -->
-    <div class="col-md-6 offset-md-3 mt-3 order-md-1">
-
-        <input type="submit" value="Upload" class="btn btn-primary">
-      </form>
     </div>
-
-    <div class="results-container">
-      <div class="dashboard">
-        <div class="chart-container">
-            <div id="match_chart"></div>
-        </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                if ({{ graphJSON|safe }}) {
-                    console.log('Rendering graph with data:', {{ graphJSON|safe }});
-                    var graphs = {{ graphJSON|safe }};
-                    Plotly.newPlot('match_chart', graphs, {title: ''}, {responsive: true}); // Set empty title
-                } else {
-                    console.log('No data for graph');
-                }
-            });
-        </script>
-      </div>
-
-      {% if students %}
-      <div class="row text-center" id="student_preferences">
-        <h2 class="dynamic-title">Student Preferences</h2>
-        {{ students | safe }}
-      </div>
-      {% endif %}
-
-      {% if projects %}
-      <div class="row text-center" id="projects">
-        <h2 class="dynamic-title">Project Preferences</h2>
-        {{ projects | safe }}
-      </div>
-      {% endif %}
-
-      {% if matches %}
-      <div class="row text-center" id="matches">
-        <div class="mt-3">
-          <a href="/download-matches" class="btn btn-secondary">Download Matches as CSV</a>
-          <a href="/download-unmatched_students" class="btn btn-secondary">Download Unmatched Students as CSV</a>
-        </div>
-      </div>
-      {% endif %}
+  </div>
+<nav>
+  <ul>
+    <li><a href="/">About</a></li>
+    <li><a href="https://github.com/data-structures-algorithms-group4">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
+      <li><a href="/team">The team</a></li>
+  </ul>
+</nav>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div id="flash-message" class="red-velvet">
+      <h3>Problems with Uploaded Data</h3>
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
     </div>
+  {% endif %}
+{% endwith %}
+
 </ul>
 </nav>
 <div class="form-section">
@@ -304,7 +247,7 @@
     </form>
 </div>
 </div>
-    
+
 <div class="dashboard">
   <div class="metric-box matched-students-box">
       <h3>Matched Students</h3>
@@ -330,7 +273,7 @@
           });
       });
   });
-  </script>  
+  </script>
 
 {% if students %}
 <div class="table-responsive" id="student_preferences">
@@ -368,31 +311,10 @@ $(document).ready(function() {
       <ul>
           <li><a href="/">About</a></li>
           <li><a href="https://github.com/data-structures-algorithms-group4">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
+          <li><a href="/team">The team</a></li>
       </ul>
   </nav>
 </footer>
 
-    <script>
-        $(document).ready(function() {
-            $('table').DataTable({
-                "pagingType": "full_numbers",
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true
-            });
-        });
-    </script>
 </body>
-<<<<<<< HEAD
-<nav>
-  <ul>
-    <li><a href="/">About</a></li>
-    <li><a href="https://github.com/data-structures-algorithms-group4">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
-      <li><a href="/team">The team</a></li>
-  </ul>
-</nav>
-</html>
-=======
 </html>
