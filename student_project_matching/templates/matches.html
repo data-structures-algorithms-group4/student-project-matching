@@ -112,10 +112,11 @@
       color: #fff; /* White text color */
     }
 
+
 /* Style for the first menu bar */
 nav:first-of-type {
     background-color: #1A1E9B ; /* Background color same as body */
-    padding: 10px 0; /* Adjust padding for better spacing */
+    padding: 5px; /* Adjust padding for better spacing */
     border-radius: 10px; /* Rounded corners for the menu bar */
     text-align: center; /* Center-align the menu items */
     margin-top: -10px; /* Reduce top margin to bring closer to the header */
@@ -181,11 +182,13 @@ nav:last-of-type {
   </script>
   
 <body>
-<div class="container" id="homepage">
-  <div class="row text-center">
-    <!-- Header wrapped in a new container -->
-    <div class="col-md-12 match-me-container">
-      <h1>Match me!</h1>
+  <div class="container" id="homepage">
+    <div class="row text-center">
+      <!-- Header wrapped in a new container -->
+      <div class="col-md-12 match-me-container">
+        <!-- Replace the text with an image -->
+        <img src="static/DSA_Title_Match-me.png"  alt="Match me!" class="header-image" width="500" height="300">
+      </div>
     </div>
   </div>
 <nav>
@@ -205,25 +208,21 @@ nav:last-of-type {
   {% endif %}
 {% endwith %}
 
-     <!-- Centered image -->
-    <div class="col-md-6 offset-md-3 mt-3">
-        <div class="text-center">
-            <img src="/static/DSA_notebooks.jpg" alt="DSA Notebooks" class="img-fluid" style="width: 250px; height: auto;">
-        </div>
+<div class="container">
+  <div class="row">
+    <!-- Form column -->
+    <div class="col-md-6 offset-md-3 mt-3 order-md-1">
+      <form method="post" enctype="multipart/form-data">
+        <label for="students">Upload Student Preferences:</label>
+        <input type="file" id="students" name="students" class="form-control-file">
+
+        <label for="projects">Upload Projects:</label>
+        <input type="file" id="projects" name="projects" class="form-control-file">
+
+        <input type="submit" value="Upload" class="btn btn-primary">
+      </form>
     </div>
-
-    <form method="post" enctype="multipart/form-data">
-      <label for="students">Upload Student Preferences:</label>
-      <input type="file" id="students" name="students" class="form-control-file">
-
-      <label for="projects">Upload Projects:</label>
-      <input type="file" id="projects" name="projects" class="form-control-file">
-
-      <input type="submit" value="Upload" class="btn btn-primary">
-    </form>
-  </div>
-</div>
-
+    
 {% if students %}
   <div class="row text-center" id="student_preferences">
     <h2 class="dynamic-title">Student Preferences</h2>
