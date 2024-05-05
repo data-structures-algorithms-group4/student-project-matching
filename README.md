@@ -6,9 +6,9 @@ This project helps students find suitable matches with their preferred projects 
 
 Abraham, David J., Robert W. Irving, and David F. Manlove. “Two Algorithms for the Student-Project Allocation Problem.” Journal of Discrete Algorithms 5, no. 1 (March 1, 2007): 73–90. https://doi.org/10.1016/j.jda.2006.03.006.
 
-## Matching Algorithm Pseudocode
+### Matching Algorithm Pseudocode
 
-### Initialization
+#### Initialization
 1. **Load Data:**
    - Extract student and project information.
    - Initialize dictionaries for student preferences (`student_prefs`), project preferences (`project_prefs`), project capacities (`project_capacity`), and project availability (`project_availability`).
@@ -20,7 +20,7 @@ Abraham, David J., Robert W. Irving, and David F. Manlove. “Two Algorithms for
 3. **Prepare Student Queue:**
    - Enqueue all students into `unassigned_students` for processing.
 
-### Algorithm Execution
+#### Algorithm Execution
 1. **Process Unassigned Students:**
    - While there are students in `unassigned_students`:
      - Dequeue a student and attempt to assign them to a project based on their preferences.
@@ -41,7 +41,7 @@ Abraham, David J., Robert W. Irving, and David F. Manlove. “Two Algorithms for
 3. **Handle Reassignments and Requeued Students:**
    - Requeue displaced students not matched and not already requeued to ensure all students are considered for any new available spots as projects reevaluate assignments.
 
-### Finalization
+#### Finalization
 - Return the `matches` dictionary showing the assignment of students to projects after all possible assignments and reevaluations are complete.
 
 See Abraham, David J., Robert W. Irving, and David F. Manlove. “Two Algorithms for the Student-Project Allocation Problem.” Journal of Discrete Algorithms 5, no. 1 (March 1, 2007): 73–90. https://doi.org/10.1016/j.jda.2006.03.006.
