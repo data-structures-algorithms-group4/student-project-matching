@@ -205,25 +205,29 @@ nav:last-of-type {
   {% endif %}
 {% endwith %}
 
-     <!-- Centered image -->
-    <div class="col-md-6 offset-md-3 mt-3">
-        <div class="text-center">
-            <img src="/static/DSA_notebooks.jpg" alt="DSA Notebooks" class="img-fluid" style="width: 250px; height: auto;">
-        </div>
+<div class="container">
+  <div class="row">
+    <!-- Form column -->
+    <div class="col-md-6 offset-md-3 mt-3 order-md-1">
+      <form method="post" enctype="multipart/form-data">
+        <label for="students">Upload Student Preferences:</label>
+        <input type="file" id="students" name="students" class="form-control-file">
+
+        <label for="projects">Upload Projects:</label>
+        <input type="file" id="projects" name="projects" class="form-control-file">
+
+        <input type="submit" value="Upload" class="btn btn-primary">
+      </form>
     </div>
 
-    <form method="post" enctype="multipart/form-data">
-      <label for="students">Upload Student Preferences:</label>
-      <input type="file" id="students" name="students" class="form-control-file">
-
-      <label for="projects">Upload Projects:</label>
-      <input type="file" id="projects" name="projects" class="form-control-file">
-
-      <input type="submit" value="Upload" class="btn btn-primary">
-    </form>
+    <!-- Image column -->
+    <div class="col-md-6 offset-md-3 mt-3 order-md-2">
+      <div class="text-center">
+        <img src="/static/DSA_notebooks.jpg" alt="DSA Notebooks" class="img-fluid" style="width: 250px; height: auto;">
+      </div>
+    </div>
   </div>
 </div>
-
 {% if students %}
   <div class="row text-center" id="student_preferences">
     <h2 class="dynamic-title">Student Preferences</h2>
