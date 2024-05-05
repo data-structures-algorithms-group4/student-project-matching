@@ -103,29 +103,56 @@
 <body>
 <div class="container">
     <div class="row">
-        <!-- Form column -->
-        <div class="col-md-6 offset-md-3 mt-3">
-            <form method="post" enctype="multipart/form-data">
-                <label for="students">Upload Student Preferences:</label>
-                <input type="file" id="students" name="students" class="form-control-file">
-
-                <label for="projects">Upload Projects:</label>
-                <input type="file" id="projects" name="projects" class="form-control-file">
-
-                <input type="submit" value="Upload" class="btn btn-primary">
-            </form>
-        </div>
-
-        <!-- Image column -->
-        <div class="col-md-3 mt-3">
-            <div class="text-center">
-                <img src="DSA_notebooks.jpg" alt="Notebooks" class="img-fluid" style="width: 250px; height: auto;">
+        <div class="col-md-8 offset-md-2">
+            <div class="header">
+                <h1>Match me a project</h1>
             </div>
+            <p class="lead">This website helps students find suitable matches with their preferred projects based on their preferences and the project requirements.</p>
         </div>
     </div>
 </div>
 
-<!-- Your existing HTML content -->
+<!-- Navigation bar with links -->
+<nav>
+    <ul>
+        <li><a href="/matches">Go to Matches</a></li>
+        <li><a href="https://github.com/data-structures-algorithms-group4">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
+    </ul>
+</nav>
 
+<!-- GIF Title Image -->
+<img src="/static/DSA_Title_Matching.gif" alt="DSA Title Matching" class="title-image">
+
+<!-- Section with provided text -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="mt-5">Stable Matching</h2>
+            <p>Given a set of n proposers (students) and recipients (projects), each with their own preferences, our goal following the Gale-Shapley algorithm was to
+                to find an assignment such that:
+                Each student ends up with exactly one project.
+
+                In this case a project may allocate more than one student, but not vice versa.
+
+                This is known as a stable matching. Its applications range from economics and networks to medical school assignments.
+                The Gale-Shapley Algorithm proposes a greedy solution to this. We process students arbitrarily and go down each
+                proposer's list of preferences for recipients. In each round, if a recipient is free, this (proposer, recipient) pair
+                becomes temporarily "engaged". If the recipient is already engaged, it will leave (and thus free) its current partner
+                only if it prefers this proposer more. This process continues until all n proposers and recipients are engaged with
+                one other person.
+
+                It is proven to produce a unique and optimal solution. It runs in quadratic time.
+
+                For more information visit <a href="https://gale-shapley.com/">gale-shapley.com</a>.
+            </p>
+        </div>
+    </div>
+</div>
 </body>
+<nav>
+  <ul>
+    <li><a href="/">About</a></li>
+    <li><a href="https://github.com/data-structures-algorithms-group4">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
+  </ul>
+</nav>
 </html>
