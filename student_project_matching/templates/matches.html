@@ -30,7 +30,33 @@
   <link rel="stylesheet" type="text/css" href="static/style.css"> <!-- Ensure this path is correct -->
   <title>Student-Project Matching</title>
 
+  <script>
+    $(document).ready( function () {
+        $('.table').DataTable();  // Ensure that your table has the class 'table'
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $('a.paginate_button').attr('style', function(i, s) { return (s || '') + 'color: white !important;' });
+    });
+  </script>
+
   <style>
+    /* Make the table dropdowns white too */
+    div.dataTables_info {
+      color: #FFFFFF !important;
+    }
+    select {
+      color: #FFFFFF !important;
+    }
+    a.paginate_button {
+      color: #FFFFFF !important;
+    }
+    div.dataTables_paginate {
+      color: #FFFFFF;
+    }
+
     body {
       background-color: #3f3ab1; /* Light gray background */
       font-family: 'Montserrat', sans-serif;
@@ -169,17 +195,11 @@ nav:last-of-type {
     p {
       margin: 20px; /* Add margin from the edge of the website */
       text-align: justify; /* Align text to justify */
-      line-height: 1.5; /* Adjust line height for better readability */
+      line-heig
     }
 
   </style>
 </head>
-
-<script>
-  $(document).ready( function () {
-      $('.table').DataTable();  // Ensure that your table has the class 'table'
-  });
-  </script>
   
 <body>
   <div class="container" id="homepage">
