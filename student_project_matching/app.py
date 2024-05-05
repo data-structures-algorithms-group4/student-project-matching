@@ -152,7 +152,7 @@ def matching():
         project_status['is_full'] = project_status['assigned_students'] >= project_status['max_students']
         projects_filled = project_status['is_full'].sum()
 
-        # Return results to the template with the metrics
+        # Return results to template with the metrics
         return render_template(
             "matches.html",
             students=students_df.to_html(classes="table table-bordered", index=False),
