@@ -4,35 +4,47 @@
 
 This project helps students find suitable matches with their preferred projects based on their preferences and the project requirements.
 
-### Algorithm in Pseudocode
-
 Abraham, David J., Robert W. Irving, and David F. Manlove. “Two Algorithms for the Student-Project Allocation Problem.” Journal of Discrete Algorithms 5, no. 1 (March 1, 2007): 73–90. https://doi.org/10.1016/j.jda.2006.03.006.
 
-Initialize structures from data:
-    students, projects, student_prefs, project_prefs, project_capacity, project_availability
+## Matching Algorithm Pseudocode
 
-Create empty structures for tracking:
-    matches, project_assignments
+### Initialization
+1. **Load Data:**
+   - Extract student and project information.
+   - Initialize dictionaries for student preferences (`student_prefs`), project preferences (`project_prefs`), project capacities (`project_capacity`), and project availability (`project_availability`).
 
-Queue all students for processing:
-    unassigned_students
+2. **Setup Structures:**
+   - Prepare `matches` dictionary to track which student is assigned to which project.
+   - Initialize `project_assignments` to manage lists of students assigned to each project.
 
-While there are unassigned students:
-    Process each student from the queue:
-        While student has unpreferred projects and is not processed:
-            Attempt to assign student to their next preferred project:
-                If project has available capacity:
-                    Assign student
-                    Mark student as processed
-                Else:
-                    Reevaluate project assignments:
-                        Consider all current and potentially new assignees
-                        Sort by preference
-                        Displace students exceeding capacity
-                        Update assignments and availability
-                        Handle requeued and displaced students
-Return final matches
+3. **Prepare Student Queue:**
+   - Enqueue all students into `unassigned_students` for processing.
 
+### Algorithm Execution
+1. **Process Unassigned Students:**
+   - While there are students in `unassigned_students`:
+     - Dequeue a student and attempt to assign them to a project based on their preferences.
+
+2. **Assignment Attempt:**
+   - For each preferred project of the current student:
+     - If the project has available capacity and the student fits the project’s preference criteria:
+       - **Assign** the student to the project.
+       - Update `matches` and `project_assignments`.
+       - Reduce availability by 1 in `project_availability`.
+     - If no direct assignment is possible:
+       - **Reevaluate Project Assignments:**
+         - Consider potential new assignments including the current student.
+         - Sort all current and new assignees by preference.
+         - Retain assignees within project capacity and displace the rest.
+         - Update `matches` and `project_assignments` accordingly.
+
+3. **Handle Reassignments and Requeued Students:**
+   - Requeue displaced students not matched and not already requeued to ensure all students are considered for any new available spots as projects reevaluate assignments.
+
+### Finalization
+- Return the `matches` dictionary showing the assignment of students to projects after all possible assignments and reevaluations are complete.
+
+See Abraham, David J., Robert W. Irving, and David F. Manlove. “Two Algorithms for the Student-Project Allocation Problem.” Journal of Discrete Algorithms 5, no. 1 (March 1, 2007): 73–90. https://doi.org/10.1016/j.jda.2006.03.006.
 
 
 ## Stable Matching
