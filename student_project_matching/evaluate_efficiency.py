@@ -12,7 +12,8 @@ import matplotlib.pyplot as plt
 # Custom project functions
 from test_data.random.test_data_random import generate_random_students_projects
 from tests.testing_environment import validate_inputs, config_logging
-from student_project_matching import matching_algorithm, suboptimal_algorithm
+from student_project_matching.matching_algorithm import matching_algorithm
+from student_project_matching.suboptimal_algorithm import suboptimal_algorithm
 from student_project_matching.naive_stable_matching import naive_stable_matching
 from tests.stable_match_checker import stable_match_checker
 
@@ -76,8 +77,7 @@ config_logging('evaluate_efficiency.log', log_level)
 
 # Loop setup values
 input_sizes = np.logspace(0, 4, 25).astype(int)[0:6] #[1, ..., 10, ..., 100, ..., 1000, ..., 10000]
-algorithm_list = [matching_algorithm.matching_algorithm, naive_stable_matching]
-#algorithm_list = [matching_algorithm.matching_algorithm, suboptimal_algorithm.matching_algorithm, naive_stable_matching]
+algorithm_list = [matching_algorithm, suboptimal_algorithm, naive_stable_matching]
 
 # Data structure to save times
 algo_times_dict = dict()
@@ -90,12 +90,13 @@ for input_size_n in input_sizes:
 
 # Handle for list of 2+ algorithm times
 algo_times_df = pd.DataFrame(algo_times_dict).T.reset_index()
-algo_times_df.columns = ['input_size_n', 'time1_seconds', 'time2_seconds']
+algo_times_df.columns = ['input_size_n', 'time1_seconds', 'time2_seconds', 'time3_seconds']
 #print(algo_times_df)
 
 # Visualize n vs. t
 sns.lineplot(data=algo_times_df, x='input_size_n', y='time1_seconds', marker='o', label='Efficient algorithm')
-sns.lineplot(data=algo_times_df, x='input_size_n', y='time2_seconds', marker='o', label='Random search algorithm')
+sns.lineplot(data=algo_times_df, x='input_size_n', y='time2_seconds', marker='o', label='Suboptimal algorithm')
+sns.lineplot(data=algo_times_df, x='input_size_n', y='time3_seconds', marker='o', label='Random search algorithm')
 plt.title('Time efficiency of student-project matching algorithms')
 plt.xlabel('Input size (number of students/projects)')
 plt.ylabel('Run time (seconds)')
