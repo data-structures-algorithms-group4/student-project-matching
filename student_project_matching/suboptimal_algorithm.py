@@ -1,5 +1,9 @@
 import pandas as pd
 from collections import defaultdict
+import logging
+
+# Initialize logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 def preprocess_preferences(students_df, projects_df):
@@ -22,31 +26,38 @@ def preprocess_preferences(students_df, projects_df):
 
 
 def assign_student_to_project(student, project, matches, project_assignments, project_availability):
+    logging.info(f'Assigning {student} to {project}.')
     matches[student] = project
     project_assignments[project].append(student)
     project_availability[project] -= 1
+    logging.info(f'Updated availability for {project}: {project_availability[project]}.')
 
 
 def reevaluate_assignments(project, project_prefs, project_assignments, project_availability, matches):
+    logging.info(f'Reevaluating {project}')
     current_assignees = project_assignments[project]
     sorted_assignees = sorted(current_assignees,
                               key=lambda s: next((rank for stud, rank in project_prefs[project] if stud == s),
                                                  float('inf')))
+
     to_keep = project_availability[project]
     project_assignments[project] = sorted_assignees[:to_keep]
     displaced_students = sorted_assignees[to_keep:]
 
     for student in displaced_students:
+        logging.info(f'Displacing {student} from {project}')
         matches.pop(student, None)
         if student in project_assignments[project]:
             project_assignments[project].remove(student)
 
+    logging.info(f'Updated project assignments for {project}: {project_assignments[project]}')
     return displaced_students
 
 
 def suboptimal_algorithm(students_df, projects_df):
     students, projects, student_prefs, project_prefs, project_capacity, project_availability = preprocess_preferences(
         students_df, projects_df)
+
     matches = {}
     project_assignments = defaultdict(list)
     unassigned_students = students[:]
@@ -57,10 +68,13 @@ def suboptimal_algorithm(students_df, projects_df):
             assigned = False
             if student not in matches:
                 for project, _ in student_prefs[student]:
-                    # Added check to verify if student is in the project's preferences list
+                    logging.info(
+                        f'Checking project {project} for student {student} with availability {project_availability[project]}')
+
                     if project in project_prefs and any(stud == student for stud, _ in project_prefs[project]):
                         if project_availability[project] > 0:
-                            assign_student_to_project(student, project, matches, project_assignments, project_availability)
+                            assign_student_to_project(student, project, matches, project_assignments,
+                                                      project_availability)
                             assigned = True
                             break
                         else:
@@ -71,9 +85,11 @@ def suboptimal_algorithm(students_df, projects_df):
                                 next_round_students.append(student)
                             assigned = True
                             break
+
             if not assigned:
                 next_round_students.append(student)
         unassigned_students = list(set(next_round_students))
 
-    return matches
+        logging.info(f'Updated unassigned students: {unassigned_students}')
 
+    return matches
