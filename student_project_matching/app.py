@@ -86,6 +86,11 @@ def home():
     return render_template("home.html")
 
 
+@app.route("/team", methods=["GET"])
+def team():
+    return render_template("team.html")
+
+
 @app.route("/matches", methods=["GET", "POST"])
 def matching():
     if request.method == "POST":
