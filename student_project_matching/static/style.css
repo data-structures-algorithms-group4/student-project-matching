@@ -1,4 +1,4 @@
-/* Resets for basic HTML elements */
+/* Basic Resets and Typography */
 body, .table, th, td, tr {
     margin: 0;
     padding: 0;
@@ -9,58 +9,130 @@ body, .table, th, td, tr {
     vertical-align: baseline;
 }
 
-/* Body and table container styling */
 body {
     background-color: #333; /* Darker background for contrast */
     color: #fff;
     font-family: 'Montserrat', sans-serif;
 }
 
-/* General table styles for higher specificity */
+/* General DataTable Styles */
 html body .table {
     width: 100%;
-    background-color: #000 !important; /* Black background */
-    color: #fff !important; /* White text */
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
 }
 
-/* Header styles with higher specificity */
-html body .table th {
-    background-color: #222 !important;
-    color: #fff !important;
-    text-align: center;
-    padding: 15px;
-}
-
-/* Cell styles with higher specificity */
-html body .table td {
+html body .data-tables th, 
+html body .data-tables td {
+    background-color: #222; /* Dark background for headers */
+    color: #fff; /* White text */
     text-align: center;
     padding: 15px;
     border-top: 1px solid #444;
-    background-color: #000 !important; /* Ensuring cell background remains black */
 }
 
-/* Hover effect for rows with higher specificity */
+/* Hover Effects */
 html body .table tbody tr:hover {
-    background-color: #555 !important; /* Medium gray for hover */
+    background-color: #555; /* Medium gray for hover */
     cursor: pointer;
 }
 
-/* Force DataTables controls to adhere to the style guide */
+/* DataTables Pagination Buttons */
 html body .dataTables_wrapper .dataTables_paginate .paginate_button {
-    color: #fff !important; /* Force white text */
-    background-color: #666 !important; /* Dark background */
-    border: 1px solid #444 !important; /* Consistent border */
+    color: #fff;
+    background-color: #666;
+    border: 1px solid #444;
+    padding: 5px 10px;
+    margin-left: 3px;
 }
 
 html body .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-    background-color: #777 !important; /* Lighter gray for hover */
-    border: 1px solid #333;
+    background-color: #777; /* Lighter gray for hover */
+    border-color: #333;
 }
 
-/* Additional styling for responsiveness and DataTables features */
+/* Responsive Design Adjustments */
 @media (max-width: 768px) {
     .table-responsive {
-        overflow-x: auto; /* Scrollable table on small devices */
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
+}
+
+/* Layout and Section Titles */
+.section-title {
+    text-align: center;
+    color: #fff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+}
+
+/* Dashboard and Metric Boxes */
+.dashboard {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+    margin-top: 20px;
+}
+
+/* Enhancements to existing table styles */
+html body .table th, html body .table td {
+    text-align: center;  /* Ensures that text in both headers and cells is centered */
+    padding: 8px 10px; /* Adjust padding to ensure alignment and readability */
+}
+
+/* Ensuring consistent column widths */
+html body .table th {
+    width: auto; /* Adjusts width automatically based on content */
+}
+
+.metric-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 300px;
+    height: 100px;
+    text-align: center;
+    transition: transform 0.3s;
+    margin: 10px;
+    font-size: 2em;
+    color: #666;
+}
+
+.metric-box:hover {
+    animation: bounce 1s;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-30px); }
+    60% { transform: translateY(-15px); }
+}
+
+/* Color Specifics for Metric Boxes */
+.matched-students-box {
+    background-color: #4CAF50; /* Green for matched students */
+    color: #ffffff;
+}
+
+.unmatched-students-box {
+    background-color: #ed9791; /* Pink for unmatched students */
+    color: #ffffff;
+}
+
+.project-capacity-box {
+    background-color: #2196F3; /* Blue for project capacity */
+    color: #ffffff;
+}
+
+.download-links {
+    text-align: center; /* Center the download links */
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

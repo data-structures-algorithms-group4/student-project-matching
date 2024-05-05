@@ -1,4 +1,8 @@
 import os
+from werkzeug.utils import secure_filename
+import json 
+import plotly.express as px
+from plotly.utils import PlotlyJSONEncoder
 from flask import (
     Flask,
     flash,
@@ -9,6 +13,7 @@ from flask import (
     send_from_directory,
     session,
     render_template,
+    jsonify
 )
 import pandas as pd
 from student_project_matching.matching_algorithm import matching_algorithm
@@ -85,72 +90,83 @@ def parse_projects_df(projects_file):
 def home():
     return render_template("home.html")
 
-
 @app.route("/matches", methods=["GET", "POST"])
 def matching():
     if request.method == "POST":
-        # check if the post request has the file part
+        # Check if the file part is present
         if "students" not in request.files or "projects" not in request.files:
-            flash("Need both students and projects")
+            flash("Need both students and projects files")
             return redirect(request.url)
-        students = request.files["students"]
-        projects = request.files["projects"]
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if students.filename == "":
-            flash("No students file")
+        
+        students = request.files['students']
+        projects = request.files['projects']
+
+        # Check for file presence in each part
+        if students.filename == "" or projects.filename == "":
+            flash("No file selected for students or projects")
             return redirect(request.url)
-        if projects.filename == "":
-            flash("No projects file")
+
+        # Validate file type
+        if not allowed_file(students.filename) or not allowed_file(projects.filename):
+            flash("Files must be in XLSX, CSV, or TXT format")
             return redirect(request.url)
-        if not allowed_file(students.filename):
-            flash("Students file must be XLSX, CSV, or TXT")
-            return redirect(request.url)
-        if not allowed_file(projects.filename):
-            flash("Projects file must be XLSX, CSV, or TXT")
-            return redirect(request.url)
+
+        # Parse files
         students_df = parse_students_df(students)
+        projects_df = parse_projects_df(projects)
+
+        # Validate data
         success, error_message = validate_students_df(students_df)
         if not success:
             flash(error_message)
             return redirect(request.url)
-        projects_df = parse_projects_df(projects)
+        
         success, error_message = validate_projects_df(projects_df)
         if not success:
             flash(error_message)
             return redirect(request.url)
-        print(students_df)
-        print(projects_df)
+
         success, error_message = validate_students_projects(students_df, projects_df)
         if not success:
             flash(error_message)
             return redirect(request.url)
+
+        # Run the matching algorithm
         matches = pd.DataFrame.from_dict(
             matching_algorithm(students_df, projects_df), orient="index"
         )
         matches.reset_index(inplace=True)
-        matches = matches.rename(
-            columns={
-                matches.columns[0]: "student_names",
-                matches.columns[1]: "project_names",
-            }
-        )
-        print(f'Matches: {matches}')
-        session["matches"] = matches.to_json(date_format='iso', orient='split')
-        unmatched_students = students_df["student_names"][~students_df["student_names"].isin(matches["student_names"])].to_frame()
-        session["unmatched_students"] = unmatched_students.to_json(date_format='iso', orient='split')
-        if unmatched_students.empty:
-            unmatched_students = None
+        matches.rename(columns={matches.columns[0]: "student_names", matches.columns[1]: "project_names"}, inplace=True)
+
+        # Calculate the metrics
+        total_students = len(students_df)
+        total_projects = len(projects_df)
+        matched_students_count = matches['student_names'].nunique()
+        unmatched_students_count = total_students - matched_students_count
+
+        # Calculate project fill rates
+        project_status = projects_df[['project_names', 'max_students']].copy()
+        project_assignments = matches['project_names'].value_counts().rename('assigned_students')
+        project_status = project_status.merge(project_assignments, on='project_names', how='left')
+        project_status.fillna(0, inplace=True)
+        project_status['is_full'] = project_status['assigned_students'] >= project_status['max_students']
+        projects_filled = project_status['is_full'].sum()
+
+        # Return results to the template with the metrics
         return render_template(
             "matches.html",
             students=students_df.to_html(classes="table table-bordered", index=False),
             projects=projects_df.to_html(classes="table table-bordered", index=False),
             matches=matches.to_html(classes="table table-bordered", index=False),
-            unmatched_students=unmatched_students
+            total_students=total_students,
+            matched_students=matched_students_count,
+            unmatched_students_count=unmatched_students_count,
+            total_projects=total_projects,
+            projects_filled=projects_filled
         )
 
-    # if not POST, render an empty version of the homepage so the user can upload students and projects
     else:
+        # Render the initial or empty version of the page for file uploads
         return render_template("matches.html", students="", projects="", matches="", unmatched_students=None)
 
 
@@ -188,3 +204,6 @@ def download_unmatched_students():
         )
     else:
         render_template("matches.html", students="", projects="", matches="", unmatched_students=None)
+
+if __name__ == '__main__':
+    app.run(debug=True)
