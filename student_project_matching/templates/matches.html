@@ -200,7 +200,13 @@ nav:last-of-type {
 
   </style>
 </head>
-
+<nav>
+  <ul>
+    <li><a href="/">About</a></li>
+    <li><a href="https://github.com/data-structures-algorithms-group4">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
+      <li><a href="/team">The team</a></li>
+  </ul>
+</nav>
 <body>
   <div class="container" id="homepage">
     <div class="row text-center">
@@ -211,13 +217,6 @@ nav:last-of-type {
       </div>
     </div>
   </div>
-<nav>
-  <ul>
-    <li><a href="/">About</a></li>
-    <li><a href="https://github.com/data-structures-algorithms-group4">Visit our GitHub<img src="/static/GitHub-Logo.wine.png" alt="GitHub Logo" class="github-logo"></a></li>
-      <li><a href="/team">The team</a></li>
-  </ul>
-</nav>
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     <div id="flash-message" class="red-velvet">
