@@ -209,6 +209,35 @@ nav:last-of-type {
       color: #ffffff;
     }
 
+    .metric-box {
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s;
+      font-size: 2em;
+      color: #666;
+    }
+
+    /* Color Specifics for Metric Boxes */
+    .matched-students-box {
+        background-color: #4CAF50; /* Green for matched students */
+        color: #ffffff;
+    }
+
+    .unmatched-students-box {
+        background-color: #ed9791; /* Pink for unmatched students */
+        color: #ffffff;
+    }
+
+    .project-capacity-box {
+        background-color: #2196F3; /* Blue for project capacity */
+        color: #ffffff;
+    }
+
 
   </style>
 </head>
@@ -285,30 +314,44 @@ nav:last-of-type {
 {% endif %}
 
 {% if matches %}
+<br>
+<br>
+<br>
 <div class="container dashboard">
   <div class="row">
-      <div class="col-4 metric-box matched-students-box">
+      <div class="col-2 metric-box matched-students-box">
         <h3 class="text-center">Matched Students</h3>
         <div class="text-center h3">{{ matched_students }}</div>
       </div>
-      <div class="col-4 metric-box unmatched-students-box">
+      <div class="col-3"></div>
+      <div class="col-2 metric-box unmatched-students-box">
         <h3 class="text-center">Unmatched Students</h3>
         <div class="text-center h3">{{ unmatched_students_count }}</div>
       </div>
-      <div class="col-4 metric-box project-capacity-box">
+      <div class="col-3"></div>
+      <div class="col-2 metric-box project-capacity-box">
         <h3 class="text-center">Projects at Full Capacity</h3>
         <div class="text-center h3">{{ projects_filled }}/{{ total_projects }}</div>
       </div>
   </div>
 </div>
-
+<br>
 <div class="table-responsive" id="matches">
   <h2 class="section-title">Matches</h2>
   {{ matches | safe }}
-  <div class="download-links">
-    <a href="/download-matches" class="btn btn-secondary">Download Matches as CSV</a>
-    <a href="/download-unmatched_students" class="btn btn-secondary">Download Unmatched Students as CSV</a>
-</div>
+  <br>
+  <div class="container">
+    <div class="row download-links">
+      <div class="col-md-6 d-flex justify-content-center">
+        <a href="/download-matches" class="btn btn-secondary">Download Matches as CSV</a>
+      </div>
+      <div class="col-md-6 d-flex justify-content-center">
+        <a href="/download-unmatched_students" class="btn btn-secondary">Download Unmatched Students as CSV</a>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
 {% endif %}
 
 <script>
