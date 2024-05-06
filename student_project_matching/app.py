@@ -1,8 +1,5 @@
 import os
-from werkzeug.utils import secure_filename
 import json 
-import plotly.express as px
-from plotly.utils import PlotlyJSONEncoder
 from flask import (
     Flask,
     flash,
