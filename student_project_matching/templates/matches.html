@@ -201,6 +201,10 @@ nav:last-of-type {
       line-heig
     }
 
+    .metric-box {
+      font-size: 30;
+    }
+
   </style>
 </head>
 <nav>
@@ -250,24 +254,7 @@ nav:last-of-type {
 </div>
 </div>
 
-{% if matches %}
-<div class="dashboard">
-  <div class="metric-box matched-students-box">
-      <h3>Matched Students</h3>
-      <p>{{ matched_students }}</p>
-  </div>
-  <div class="metric-box unmatched-students-box">
-      <h3>Unmatched Students</h3>
-      <p>{{ unmatched_students_count }}</p>
-  </div>
-  <div class="metric-box project-capacity-box">
-      <h3>Projects at Full Capacity</h3>
-      <p>{{ projects_filled }}/{{ total_projects }}</p>
-  </div>
-</div>
-{% endif %}
-
-<script>
+<script>/*
   document.addEventListener('DOMContentLoaded', function() {
       const metricBoxes = document.querySelectorAll('.metric-box');
       metricBoxes.forEach(box => {
@@ -276,7 +263,7 @@ nav:last-of-type {
           });
       });
   });
-  </script>
+*/</script>
 
 {% if students %}
 <div class="table-responsive" id="student_preferences">
@@ -300,8 +287,24 @@ nav:last-of-type {
     <a href="/download-matches" class="btn btn-secondary">Download Matches as CSV</a>
     <a href="/download-unmatched_students" class="btn btn-secondary">Download Unmatched Students as CSV</a>
 </div>
-{% endif %}
+
+<div class="container dashboard">
+  <div class="row">
+      <div class="col-4 metric-box matched-students-box">
+        <h3 class="text-center">Matched Students</h3>
+        <div class="text-center h3">{{ matched_students }}</div>
+      </div>
+      <div class="col-4 metric-box unmatched-students-box">
+        <h3 class="text-center">Unmatched Students</h3>
+        <div class="text-center h3">{{ unmatched_students_count }}</div>
+      </div>
+      <div class="col-4 metric-box project-capacity-box">
+        <h3 class="text-center">Projects at Full Capacity</h3>
+        <div class="text-center h3">{{ projects_filled }}/{{ total_projects }}</div>
+      </div>
+  </div>
 </div>
+{% endif %}
 
 <script>
 $(document).ready(function() {
