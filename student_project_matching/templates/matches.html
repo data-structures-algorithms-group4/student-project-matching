@@ -205,6 +205,10 @@ nav:last-of-type {
       font-size: 30;
     }
 
+    .dataTable td {
+      color: #ffffff;
+    }
+
 
   </style>
 </head>
@@ -281,14 +285,6 @@ nav:last-of-type {
 {% endif %}
 
 {% if matches %}
-<div class="table-responsive" id="matches">
-  <h2 class="section-title">Matches</h2>
-  {{ matches | safe }}
-  <div class="download-links">
-    <a href="/download-matches" class="btn btn-secondary">Download Matches as CSV</a>
-    <a href="/download-unmatched_students" class="btn btn-secondary">Download Unmatched Students as CSV</a>
-</div>
-
 <div class="container dashboard">
   <div class="row">
       <div class="col-4 metric-box matched-students-box">
@@ -304,6 +300,14 @@ nav:last-of-type {
         <div class="text-center h3">{{ projects_filled }}/{{ total_projects }}</div>
       </div>
   </div>
+</div>
+
+<div class="table-responsive" id="matches">
+  <h2 class="section-title">Matches</h2>
+  {{ matches | safe }}
+  <div class="download-links">
+    <a href="/download-matches" class="btn btn-secondary">Download Matches as CSV</a>
+    <a href="/download-unmatched_students" class="btn btn-secondary">Download Unmatched Students as CSV</a>
 </div>
 {% endif %}
 
