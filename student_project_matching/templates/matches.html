@@ -37,13 +37,16 @@
   </script>
 
   <script>
+    /* Handles the table dropdown that is changed to black by something in JQuery */
     $(document).ready(function() {
       $('a.paginate_button').attr('style', function(i, s) { return (s || '') + 'color: white !important;' });
     });
   </script>
 
   <style>
-    /* Make the table dropdowns white too */
+    /* Make the table dropdowns white too
+       I am aware that !important is generally bad but we won't be extending the site very much
+       and JQuery turns this text black with very specific CSS selectors */
     div.dataTables_info {
       color: #FFFFFF !important;
     }
@@ -247,6 +250,7 @@ nav:last-of-type {
 </div>
 </div>
 
+{% if matches %}
 <div class="dashboard">
   <div class="metric-box matched-students-box">
       <h3>Matched Students</h3>
@@ -261,7 +265,7 @@ nav:last-of-type {
       <p>{{ projects_filled }}/{{ total_projects }}</p>
   </div>
 </div>
-
+{% endif %}
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
