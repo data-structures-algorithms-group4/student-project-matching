@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project helps students find suitable matches with their preferred projects based on their preferences and the project requirements.
+This project helps students find suitable matches with their preferred projects based on their preferences and the project requirements. The Flask web application that we built together is accessible at www.studentprojectmatching.com.
 
 ### Matching Algorithm Pseudocode
 
